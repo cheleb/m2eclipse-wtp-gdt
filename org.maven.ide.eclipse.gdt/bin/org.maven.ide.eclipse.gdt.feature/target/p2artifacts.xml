@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='org.eclipse.update.feature' id='org.maven.ide.eclipse.gdt.feature' version='0.0.1.201008272345'>
+    <properties size='7'>
+      <property name='artifact.size' value='2164'/>
+      <property name='download.size' value='2164'/>
+      <property name='download.md5' value='9201ec7626f1e072180b5022d43e2132'/>
+      <property name='maven-groupId' value='org.maven.ide.eclipse.gdt'/>
+      <property name='maven-artifactId' value='org.maven.ide.eclipse.feature'/>
+      <property name='maven-version' value='0.0.1-SNAPSHOT'/>
+      <property name='download.contentType' value='application/zip'/>
+    </properties>
+  </artifact>
+</artifacts>

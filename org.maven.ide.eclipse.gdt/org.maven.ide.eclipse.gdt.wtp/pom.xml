@@ -1,0 +1,13 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>org.maven.ide.eclipse.gdt</artifactId>
+		<groupId>org.maven.ide.eclipse.gdt</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+  <groupId>org.maven.ide.eclipse.gdt</groupId>
+  <artifactId>org.maven.ide.eclipse.gdt.wtp</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>eclipse-plugin</packaging>
+  <name>Maven Integration for Google Eclipse Plugin : WTP</name>
+</project>

@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.co
+ re.resources,org.maven.ide.eclipse.gdt.core;bundle-version="0.0.1",or
+ g.eclipse.wst.server.core;bundle-version="1.1.102",org.eclipse.jst.se
+ rver.core;bundle-version="1.2.1",org.eclipse.jst.server.generic.core;
+ bundle-version="1.0.506",org.eclipse.jst.server.ui;bundle-version="1.
+ 1.0",org.eclipse.jst.server.tomcat.core;bundle-version="1.1.106",org.
+ eclipse.jst.server.tomcat.ui;bundle-version="1.1.102",org.eclipse.deb
+ ug.core;bundle-version="3.5.0",org.eclipse.debug.ui;bundle-version="3
+ .5.1",com.google.gdt.eclipse.core;bundle-version="1.3.2",com.google.g
+ wt.eclipse.core;bundle-version="1.3.2",com.google.appengine.eclipse.c
+ ore;bundle-version="1.3.2",org.eclipse.jst.jee;bundle-version="1.0.30
+ 0",org.eclipse.jst.jee.web;bundle-version="1.0.300"
+Bundle-Vendor: Fred Bricon
+Bundle-ActivationPolicy: lazy
+Bundle-Version: 0.0.1.201008272345
+Bundle-Name: WTP integration for Google Eclipse Plugin
+Bundle-Activator: org.maven.ide.eclipse.gdt.wtp.GdtWtpM2ePlugin
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.maven.ide.eclipse.gdt.wtp;singleton:=true
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+

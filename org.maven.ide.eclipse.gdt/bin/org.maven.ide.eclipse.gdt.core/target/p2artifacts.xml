@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='org.maven.ide.eclipse.gdt.core' version='0.0.1.201008272345'>
+    <properties size='6'>
+      <property name='artifact.size' value='12259'/>
+      <property name='download.size' value='12259'/>
+      <property name='download.md5' value='933f9ba8d5e5827715b549ca83e78b11'/>
+      <property name='maven-groupId' value='org.maven.ide.eclipse.gdt'/>
+      <property name='maven-artifactId' value='org.maven.ide.eclipse.gdt.core'/>
+      <property name='maven-version' value='0.0.1-SNAPSHOT'/>
+    </properties>
+  </artifact>
+</artifacts>
