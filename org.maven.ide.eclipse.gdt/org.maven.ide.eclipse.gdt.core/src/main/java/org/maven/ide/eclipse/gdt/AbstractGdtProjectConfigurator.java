@@ -8,7 +8,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -36,11 +38,13 @@ public abstract class AbstractGdtProjectConfigurator extends
 		MavenProject mavenProject = request.getMavenProject();
 		IProject project = request.getProject();
 		if (isConfigurable(mavenProject)) {
-			checkMissingSDKSeverity(project);
-			configureNature(project);
+			checkMissingSDKSeverity(project, monitor);
+			configureNature(project, monitor);
+
 			if (isWebapp(mavenProject)) {
 				configureWebapp(project, mavenProject);
-				boolean messWithLaunchConfig = true;//TODO read from Preferences
+				boolean messWithLaunchConfig = true;// TODO read from
+													// Preferences
 				if (messWithLaunchConfig) {
 					configureDeploymentSettings(project, mavenProject);
 				}
@@ -50,9 +54,11 @@ public abstract class AbstractGdtProjectConfigurator extends
 
 	protected abstract boolean isConfigurable(MavenProject mavenProject);
 
-	protected abstract void configureNature(IProject project) throws CoreException;
+	protected abstract void configureNature(IProject project,
+			IProgressMonitor monitor) throws CoreException;
 
-	protected void configureDeploymentSettings(IProject project, MavenProject mavenProject) throws CoreException {
+	protected void configureDeploymentSettings(IProject project,
+			MavenProject mavenProject) throws CoreException {
 		// do nothing
 	}
 
@@ -104,36 +110,99 @@ public abstract class AbstractGdtProjectConfigurator extends
 		return project.getFolder(warSrcDir).getProjectRelativePath();
 	}
 
-	protected void checkMissingSDKSeverity(IProject project) {
+	protected void checkMissingSDKSeverity(IProject project,
+			IProgressMonitor monitor) {
 		assert project != null;
 		IJavaProject javaProject = JavaCore.create(project);
 		if (javaProject != null) {
 			try {
 				AbstractSdk sdk = findSDK(javaProject);
+				GdtProblemSeverity severity = GdtProblemSeverities
+						.getInstance().getSeverity(
+								ProjectStructureOrSdkProblemType.NO_SDK);
 				if (sdk == null) {
-					GdtProblemSeverity severity = GdtProblemSeverities.getInstance()
-																	  .getSeverity(ProjectStructureOrSdkProblemType.NO_SDK);
+
 					if (severity == GdtProblemSeverity.ERROR) {
-						// TODO Access to the Google Preferences classes is forbidden. 
+						// TODO Access to the Google Preferences classes is
+						// forbidden.
 						// Since we can't change the severity via the API,
 						// we'll just log a red warning in the console
 						console.logError("Warning : you should reduce the severity level for"
-										+ " Window > Preferences > Google > Errors/Warnings > "
-										+ ProjectStructureOrSdkProblemType.NO_SDK
-												.getCategory().getDisplayName()
-										+ " > "
-										+ ProjectStructureOrSdkProblemType.NO_SDK
-												.getDescription());
+								+ " Window > Preferences > Google > Errors/Warnings > "
+								+ ProjectStructureOrSdkProblemType.NO_SDK
+										.getCategory().getDisplayName()
+								+ " > "
+								+ ProjectStructureOrSdkProblemType.NO_SDK
+										.getDescription());
+						insurePresenceOfGWTDependency(monitor, project, null);
+						return;
 					}
 
+				} else {
+					if (severity == GdtProblemSeverity.IGNORE) {
+						removePresenceOfGWTDependency(monitor, project, null);
+					}
 				}
 			} catch (JavaModelException e) {
-				console.logError("Unable to find GWT SDK for "+ project.getName());
-				// Swallow the exception for now, since we just want to warn users
+				console.logError("Unable to find GWT SDK for "
+						+ project.getName());
+				// Swallow the exception for now, since we just want to warn
+				// users
 				return;
 			}
 		}
+		return;
 	}
 
-	protected abstract AbstractSdk findSDK(IJavaProject javaProject) throws JavaModelException;
+	protected abstract AbstractSdk findSDK(IJavaProject javaProject)
+			throws JavaModelException;
+
+	private void insurePresenceOfGWTDependency(IProgressMonitor monitor,
+			IProject project, String gwtVersion) throws JavaModelException {
+		IJavaProject javaProject = JavaCore.create(project);
+		IClasspathEntry prevClasspathEntries[] = javaProject.getRawClasspath();
+
+		for (int i = 0; i < prevClasspathEntries.length; i++) {
+			IClasspathEntry iClasspathEntry = prevClasspathEntries[i];
+			if ("com.google.gwt.eclipse.core.GWT_CONTAINER"
+					.equals(iClasspathEntry.getPath().segment(0))) {
+				return;
+			}
+		}
+		StringBuilder gwtLibrairyPath = new StringBuilder(
+				"com.google.gwt.eclipse.core.GWT_CONTAINER");
+		if (gwtVersion != null) {
+			gwtLibrairyPath.append('/').append(gwtVersion);
+		}
+		IClasspathEntry newClasspathEntries[] = new IClasspathEntry[prevClasspathEntries.length + 1];
+		System.arraycopy(prevClasspathEntries, 0, newClasspathEntries, 0,
+				prevClasspathEntries.length);
+		IClasspathEntry updated = JavaCore.newContainerEntry(new Path(
+				gwtLibrairyPath.toString()), null, null, false);
+
+		newClasspathEntries[prevClasspathEntries.length] = updated;
+
+		javaProject.setRawClasspath(newClasspathEntries, monitor);
+	}
+
+	private void removePresenceOfGWTDependency(IProgressMonitor monitor,
+			IProject project, String gwtVersion) throws JavaModelException {
+		IJavaProject javaProject = JavaCore.create(project);
+		IClasspathEntry prevClasspathEntries[] = javaProject.getRawClasspath();
+		IClasspathEntry newClasspathEntries[] = new IClasspathEntry[prevClasspathEntries.length - 1];
+		boolean found = false;
+		for (int i = 0; i < prevClasspathEntries.length; i++) {
+			IClasspathEntry iClasspathEntry = prevClasspathEntries[i];
+			if ("com.google.gwt.eclipse.core.GWT_CONTAINER"
+					.equals(iClasspathEntry.getPath().segment(0))) {
+				found = true;
+			} else {
+				newClasspathEntries[i] = iClasspathEntry;
+			}
+		}
+
+		if (found) {
+			javaProject.setRawClasspath(newClasspathEntries, monitor);
+		}
+	}
 }

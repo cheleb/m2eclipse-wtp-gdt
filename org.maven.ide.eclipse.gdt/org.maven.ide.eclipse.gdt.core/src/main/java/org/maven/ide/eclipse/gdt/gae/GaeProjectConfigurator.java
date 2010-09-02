@@ -3,6 +3,7 @@ package org.maven.ide.eclipse.gdt.gae;
 import org.apache.maven.project.MavenProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.maven.ide.eclipse.gdt.AbstractGdtProjectConfigurator;
@@ -22,7 +23,7 @@ public class GaeProjectConfigurator extends AbstractGdtProjectConfigurator {
 		}
 
 		@Override
-		protected void configureNature(IProject project) throws CoreException {
+		protected void configureNature(IProject project, IProgressMonitor monitor) throws CoreException {
 			if (!GaeNature.isGaeProject(project)) {
 				console.logMessage("Adding GAE nature to " + project.getName());
 				GaeNature.addNatureToProject(project);
