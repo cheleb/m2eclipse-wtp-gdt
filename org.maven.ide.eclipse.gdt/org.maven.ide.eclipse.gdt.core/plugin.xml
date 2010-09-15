@@ -21,5 +21,33 @@
             priority="301">
       </configurator>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.maven.ide.eclipse.gdt.core.preferences.MavenGWTPreferencePage"
+            id="org.maven.ide.eclipse.gdt.core.preferences.MavenGWTPreferencePage"
+            name="Maven GWT Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.maven.ide.eclipse.gdt.core.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            adaptable="true"
+            class="org.maven.ide.eclipse.gdt.core.properties.MavenGWTPropertyPage"
+            id="org.maven.ide.eclipse.gdt.core.properties.samplePropertyPage"
+            name="Maven GWT WTP"
+            objectClass="org.eclipse.core.resources.IProject">
+         <filter
+               name="projectNature"
+               value="org.maven.ide.eclipse.maven2Nature">
+         </filter>
+      </page>
+   </extension>
 
 </plugin>
