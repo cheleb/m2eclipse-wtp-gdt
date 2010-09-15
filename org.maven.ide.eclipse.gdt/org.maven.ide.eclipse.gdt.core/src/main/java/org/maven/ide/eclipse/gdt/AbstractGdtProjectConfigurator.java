@@ -37,8 +37,9 @@ public abstract class AbstractGdtProjectConfigurator extends
 			IProgressMonitor monitor) throws CoreException {
 		MavenProject mavenProject = request.getMavenProject();
 		IProject project = request.getProject();
+		IJavaProject javaProject = JavaCore.create(project);
 		if (isConfigurable(mavenProject)) {
-			checkMissingSDKSeverity(project, monitor);
+			checkMissingSDKSeverity(javaProject, monitor);
 			configureNature(project, monitor);
 
 			if (isWebapp(mavenProject)) {
@@ -110,10 +111,9 @@ public abstract class AbstractGdtProjectConfigurator extends
 		return project.getFolder(warSrcDir).getProjectRelativePath();
 	}
 
-	protected void checkMissingSDKSeverity(IProject project,
+	protected void checkMissingSDKSeverity(IJavaProject javaProject,
 			IProgressMonitor monitor) {
-		assert project != null;
-		IJavaProject javaProject = JavaCore.create(project);
+
 		if (javaProject != null) {
 			try {
 				AbstractSdk sdk = findSDK(javaProject);
@@ -134,18 +134,20 @@ public abstract class AbstractGdtProjectConfigurator extends
 								+ " > "
 								+ ProjectStructureOrSdkProblemType.NO_SDK
 										.getDescription());
-						insurePresenceOfGWTDependency(monitor, project, null);
+						insurePresenceOfGWTDependency(monitor, javaProject,
+								null);
 						return;
 					}
 
 				} else {
 					if (severity == GdtProblemSeverity.IGNORE) {
-						removePresenceOfGWTDependency(monitor, project, null);
+						removePresenceOfGWTDependency(monitor, javaProject,
+								null);
 					}
 				}
 			} catch (JavaModelException e) {
 				console.logError("Unable to find GWT SDK for "
-						+ project.getName());
+						+ javaProject.getElementName());
 				// Swallow the exception for now, since we just want to warn
 				// users
 				return;
@@ -157,9 +159,20 @@ public abstract class AbstractGdtProjectConfigurator extends
 	protected abstract AbstractSdk findSDK(IJavaProject javaProject)
 			throws JavaModelException;
 
+	/**
+	 * Add the GWT SDK Library if not yet in the classpath. It must be added
+	 * <b>before</b> the Maven classpath container or the GEP will complaint that the
+	 * GWT SDK is not found.
+	 * 
+	 * @param monitor
+	 * @param javaProject
+	 * @param gwtVersion
+	 * @throws JavaModelException
+	 */
 	private void insurePresenceOfGWTDependency(IProgressMonitor monitor,
-			IProject project, String gwtVersion) throws JavaModelException {
-		IJavaProject javaProject = JavaCore.create(project);
+			IJavaProject javaProject, String gwtVersion)
+			throws JavaModelException {
+
 		IClasspathEntry prevClasspathEntries[] = javaProject.getRawClasspath();
 
 		for (int i = 0; i < prevClasspathEntries.length; i++) {
@@ -174,20 +187,36 @@ public abstract class AbstractGdtProjectConfigurator extends
 		if (gwtVersion != null) {
 			gwtLibrairyPath.append('/').append(gwtVersion);
 		}
-		IClasspathEntry newClasspathEntries[] = new IClasspathEntry[prevClasspathEntries.length + 1];
-		System.arraycopy(prevClasspathEntries, 0, newClasspathEntries, 0,
-				prevClasspathEntries.length);
-		IClasspathEntry updated = JavaCore.newContainerEntry(new Path(
-				gwtLibrairyPath.toString()), null, null, false);
 
-		newClasspathEntries[prevClasspathEntries.length] = updated;
+		IClasspathEntry newClasspathEntries[] = new IClasspathEntry[prevClasspathEntries.length + 1];
+
+		int offset = 0;
+		for (int i = 0; i < newClasspathEntries.length; i++) {
+			IClasspathEntry iClasspathEntry = prevClasspathEntries[i - offset];
+			if ("org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"
+					.equals(iClasspathEntry.getPath().segment(0))) {
+				newClasspathEntries[i++] = JavaCore.newContainerEntry(new Path(
+						gwtLibrairyPath.toString()), null, null, false);
+				offset = 1;
+			}
+			newClasspathEntries[i] = iClasspathEntry;
+
+		}
 
 		javaProject.setRawClasspath(newClasspathEntries, monitor);
 	}
 
+	/**
+	 * Remove the GWT SDK Library if found in the classpath.
+	 * 
+	 * @param monitor
+	 * @param javaProject
+	 * @param gwtVersion
+	 * @throws JavaModelException
+	 */
 	private void removePresenceOfGWTDependency(IProgressMonitor monitor,
-			IProject project, String gwtVersion) throws JavaModelException {
-		IJavaProject javaProject = JavaCore.create(project);
+			IJavaProject javaProject, String gwtVersion)
+			throws JavaModelException {
 		IClasspathEntry prevClasspathEntries[] = javaProject.getRawClasspath();
 		IClasspathEntry newClasspathEntries[] = new IClasspathEntry[prevClasspathEntries.length - 1];
 		boolean found = false;
