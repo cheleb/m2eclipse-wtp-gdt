@@ -2,11 +2,9 @@ package org.maven.ide.eclipse.gdt.wtp.deployment;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jst.server.generic.servertype.definition.Module;
 import org.eclipse.wst.server.core.IModule;
 import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.core.ServerUtil;
-import org.eclipse.wst.server.core.util.PublishAdapter;
 import org.maven.ide.eclipse.gdt.deployment.ServerDeploymentStrategy;
 
 public class WtpDeploymentStrategy implements ServerDeploymentStrategy {

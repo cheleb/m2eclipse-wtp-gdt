@@ -2,7 +2,6 @@ package org.maven.ide.eclipse.gdt.core.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-
 import org.maven.ide.eclipse.gdt.MavenGdtPlugin;
 
 /**

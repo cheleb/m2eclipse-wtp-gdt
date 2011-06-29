@@ -5,9 +5,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-  <groupId>org.maven.ide.eclipse.gdt</groupId>
+
   <artifactId>org.maven.ide.eclipse.gwt.site</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+
   <packaging>eclipse-update-site</packaging>
   <name>Maven Integration for Google Eclipse Plugin : Site</name>
   
@@ -24,7 +24,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-4</version>
+
         <configuration>
           <descriptors>
             <descriptor>src/main/assembly/assembly.xml</descriptor>

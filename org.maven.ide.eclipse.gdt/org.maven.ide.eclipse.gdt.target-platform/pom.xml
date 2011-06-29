@@ -5,9 +5,9 @@
     <groupId>org.maven.ide.eclipse.gdt</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.maven.ide.eclipse.gdt</groupId>
+
   <artifactId>org.maven.ide.eclipse.gdt.target-platform</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+
   <name>Maven Integration for Google Eclipse Plugin : Target</name>
 
   <packaging>pom</packaging>

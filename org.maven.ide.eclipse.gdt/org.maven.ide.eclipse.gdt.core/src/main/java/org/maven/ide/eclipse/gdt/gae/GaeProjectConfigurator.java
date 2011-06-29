@@ -7,6 +7,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.maven.ide.eclipse.gdt.AbstractGdtProjectConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.appengine.eclipse.core.nature.GaeNature;
 import com.google.appengine.eclipse.core.sdk.GaeSdk;
@@ -17,6 +19,8 @@ public class GaeProjectConfigurator extends AbstractGdtProjectConfigurator {
 
 		private static final String MAVEN_GAE_PLUGIN = "net.kindleit:maven-gae-plugin";
 
+		private static final Logger LOGGER = LoggerFactory.getLogger(GaeProjectConfigurator.class);
+		
 		@Override
 		protected boolean isConfigurable(MavenProject mavenProject) {
 			return mavenProject.getPlugin(MAVEN_GAE_PLUGIN) != null;
@@ -25,7 +29,7 @@ public class GaeProjectConfigurator extends AbstractGdtProjectConfigurator {
 		@Override
 		protected void configureNature(IProject project, IProgressMonitor monitor) throws CoreException {
 			if (!GaeNature.isGaeProject(project)) {
-				console.logMessage("Adding GAE nature to " + project.getName());
+				LOGGER.info("Adding GAE nature to " + project.getName());
 				GaeNature.addNatureToProject(project);
 			}
 			configureORM(project);

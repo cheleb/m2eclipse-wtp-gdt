@@ -1,8 +1,5 @@
 package org.maven.ide.eclipse.gdt.deployment;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.eclipse.core.resources.IProject;
 import org.maven.ide.eclipse.gdt.deployment.internal.GdtDeploymentStrategy;
 

@@ -1,108 +1,198 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.maven.ide.eclipse.gdt</groupId>
-  <artifactId>org.maven.ide.eclipse.gdt</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Maven Integration for Google Eclipse Plugin : parent</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.maven.ide.eclipse.gdt</groupId>
+	<artifactId>org.maven.ide.eclipse.gdt</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
- 
-  <properties>
-  	<maven.version>3.0-alpha-7</maven.version>
-  	<tycho.version>0.9.0</tycho.version>
-    <tycho.test.jvmArgs>-Xmx512m -XX:MaxPermSize=256m</tycho.test.jvmArgs>
-	<target.platform>m2e-gdt-36</target.platform>
-  </properties>
+	<packaging>pom</packaging>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.1</version>
-        <configuration>
-          <!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
-          <source>1.5</source>
-          <target>1.5</target>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho.version}</version>
-        <extensions>true</extensions>
-      </plugin>
+	<name>Maven Integration for Google Eclipse Plugin : parent</name>
 
-      <plugin>
-        <groupId>org.sonatype.tycho</groupId>
-        <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho.version}</version>
-        <configuration>
-          <resolver>p2</resolver>
-          <target>
-            <artifact>
-			  <groupId>org.maven.ide.eclipse.gdt</groupId>
-			  <artifactId>org.maven.ide.eclipse.gdt.target-platform</artifactId>
-			  <version>${project.version}</version>
-              <classifier>${target.platform}</classifier>
-            </artifact>
-          </target>
-          <ignoreTychoRepositories>true</ignoreTychoRepositories>
-        </configuration>
-      </plugin>
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
 
-    </plugins>
+	<parent>
+		<groupId>org.sonatype.forge</groupId>
+		<artifactId>forge-parent</artifactId>
+		<version>10</version>
+	</parent>
 
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.sonatype.tycho</groupId>
-          <artifactId>maven-osgi-lifecycle-plugin</artifactId>
-          <version>${tycho.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.sonatype.tycho</groupId>
-          <artifactId>maven-osgi-packaging-plugin</artifactId>
-          <version>${tycho.version}</version>
-          <configuration>
-          
-            <!-- workaround for TYCHO-349 or TYCHO-313 -->
-            <strictVersions>false</strictVersions>
-            
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.sonatype.tycho</groupId>
-          <artifactId>maven-osgi-test-plugin</artifactId>
-          <version>${tycho.version}</version>
-          <configuration>
-            <useUIHarness>true</useUIHarness>
-            <includes>
-              <include>**/*Test.java</include>
-            </includes>
-            <argLine>${tycho.test.jvmArgs}</argLine>
-            <!-- kill test JVM if tests take more than 10 minutes (600 seconds) to finish -->
-            <forkedProcessTimeoutInSeconds>7200</forkedProcessTimeoutInSeconds>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.sonatype.tycho</groupId>
-          <artifactId>maven-osgi-compiler-plugin</artifactId>
-          <version>${tycho.version}</version>
-          <configuration>
-            <source>1.5</source>
-            <target>1.5</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
-  <modules>
-  	<module>org.maven.ide.eclipse.gdt.target-platform</module>
-  	<module>org.maven.ide.eclipse.gdt.core</module>
-  	<module>org.maven.ide.eclipse.gdt.wtp</module>
-  	<module>org.maven.ide.eclipse.gdt.feature</module>
-  	<module>org.maven.ide.eclipse.gdt.site</module>
-  </modules>  
+
+	<repositories>
+	    <repository>
+        <id>google.gep</id>
+        <url>http://dl.google.com/eclipse/plugin/3.7</url>
+        <layout>p2</layout>
+     </repository>
+	
+		<repository>
+			<id>rso</id>
+			<url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
+		</repository>
+
+		<repository>
+			<id>helios</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/indigo</url>
+		</repository>
+
+		<repository>
+			<id>m2e</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/technology/m2e/releases/1.0</url>
+		</repository>
+	</repositories>
+
+	<properties>
+		<tycho.version>0.12.0</tycho.version>
+		<!-- <target.platform>m2e-gdt-36</target.platform> -->
+	</properties>
+
+	<modules>
+		<!-- <module>org.maven.ide.eclipse.gdt.target-platform</module> -->
+		<module>org.maven.ide.eclipse.gdt.core</module>
+		<module>org.maven.ide.eclipse.gdt.wtp</module>
+		<module>org.maven.ide.eclipse.gdt.feature</module>
+		<module>org.maven.ide.eclipse.gdt.site</module>
+	</modules>
+
+	<profiles>
+		<profile>
+			<id>sun-jvm</id>
+			<activation>
+				<property>
+					<name>java.vendor.url</name>
+					<value>http://java.sun.com/</value>
+				</property>
+			</activation>
+			<properties>
+				<tycho.test.jvmArgs>-Xmx800m -XX:MaxPermSize=256m</tycho.test.jvmArgs>
+			</properties>
+		</profile>
+		<profile>
+			<id>osx</id>
+			<activation>
+				<property>
+					<name>java.vendor.url</name>
+					<value>http://www.apple.com/</value>
+				</property>
+			</activation>
+			<properties>
+				<tycho.test.jvmArgs>-Xmx800m -XX:MaxPermSize=256m
+					-XstartOnFirstThread</tycho.test.jvmArgs>
+			</properties>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>tycho-surefire-plugin</artifactId>
+							<version>${tycho-version}</version>
+							<configuration>
+								<dependencies>
+									<dependency>
+										<artifactId>org.eclipse.jdt.launching.macosx</artifactId>
+										<version>3.2.100</version>
+										<type>eclipse-plugin</type>
+									</dependency>
+								</dependencies>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+		<profile>
+			<id>sign</id>
+			<activation>
+				<property>
+					<name>jarsigner.alias</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>1.2</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<extensions>true</extensions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<resolver>p2</resolver>
+					<ignoreTychoRepositories>true</ignoreTychoRepositories>
+<!-- 					<target> -->
+<!-- 						<artifact> -->
+<!-- 							<groupId>org.maven.ide.eclipse.gdt</groupId> -->
+<!-- 							<artifactId>org.maven.ide.eclipse.gdt.target-platform</artifactId> -->
+<!-- 							<version>${project.version}</version> -->
+<!-- 							<classifier>${target.platform}</classifier> -->
+<!-- 						</artifact> -->
+<!-- 					</target> -->
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.sonatype.tycho</groupId>
+					<artifactId>maven-osgi-test-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<useUIHarness>true</useUIHarness>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+						<argLine>${tycho.test.jvmArgs}</argLine>
+
+						<forkedProcessTimeoutInSeconds>900</forkedProcessTimeoutInSeconds>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.4.3</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>

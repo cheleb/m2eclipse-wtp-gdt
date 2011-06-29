@@ -5,9 +5,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-  <groupId>org.maven.ide.eclipse.gdt</groupId>
+
   <artifactId>org.maven.ide.eclipse.gdt.wtp</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+
   <packaging>eclipse-plugin</packaging>
   <name>Maven Integration for Google Eclipse Plugin : WTP</name>
 </project>

@@ -3,9 +3,9 @@ package org.maven.ide.eclipse.gdt;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -14,9 +14,11 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.maven.ide.eclipse.project.configurator.AbstractProjectConfigurator;
-import org.maven.ide.eclipse.project.configurator.ProjectConfigurationRequest;
+import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
+import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
 import org.osgi.service.prefs.BackingStoreException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gdt.eclipse.core.markers.GdtProblemSeverities;
 import com.google.gdt.eclipse.core.markers.GdtProblemSeverity;
@@ -28,28 +30,36 @@ import com.google.gdt.eclipse.core.sdk.AbstractSdk;
 public abstract class AbstractGdtProjectConfigurator extends
 		AbstractProjectConfigurator {
 
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGdtProjectConfigurator.class);
+	
 	private static final String MAVEN_WAR_PLUGIN = "org.apache.maven.plugins:maven-war-plugin";
 
 	private static final String WAR_SOURCE_FOLDER = "src/main/webapp";
 
 	@Override
 	public void configure(ProjectConfigurationRequest request,
-			IProgressMonitor monitor) throws CoreException {
+			IProgressMonitor monitor)  {
 		MavenProject mavenProject = request.getMavenProject();
 		IProject project = request.getProject();
 		IJavaProject javaProject = JavaCore.create(project);
-		if (isConfigurable(mavenProject)) {
-			checkMissingSDKSeverity(javaProject, monitor);
-			configureNature(project, monitor);
+		try {
+			if (isConfigurable(mavenProject)) {
+				checkMissingSDKSeverity(javaProject, monitor);
+				configureNature(project, monitor);
 
-			if (isWebapp(mavenProject)) {
-				configureWebapp(project, mavenProject);
-				boolean messWithLaunchConfig = true;// TODO read from
-													// Preferences
-				if (messWithLaunchConfig) {
-					configureDeploymentSettings(project, mavenProject);
+				if (isWebapp(mavenProject)) {
+					configureWebapp(project, mavenProject);
+					boolean messWithLaunchConfig = true;// TODO read from
+														// Preferences
+					if (messWithLaunchConfig) {
+						configureDeploymentSettings(project, mavenProject);
+					}
 				}
 			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -71,14 +81,17 @@ public abstract class AbstractGdtProjectConfigurator extends
 			throws CoreException {
 		assert project != null;
 		assert mavenProject != null;
-		IPath warSrcDir = getWarSrcDir(project, mavenProject);
+		IFolder warSrcDir = getWarSrcDir(project, mavenProject);
 		if (warSrcDir != null) {// null if not a web project
 			try {
 				if (!warSrcDir.equals(WebAppProjectProperties
 						.getWarSrcDir(project))) {
-					WebAppProjectProperties.setWarSrcDir(project, warSrcDir);
+					WebAppProjectProperties.setWarSrcDir(project, warSrcDir.getProjectRelativePath());
 				}
 				WebAppProjectProperties.setWarSrcDirIsOutput(project, false);
+				
+				WebAppProjectProperties.setLastUsedWarOutLocation(project, project.getFolder("target/m2e-wtp/web-resources").getRawLocation());
+				
 			} catch (BackingStoreException e) {
 				throw new CoreException(new Status(IStatus.ERROR,
 						MavenGdtPlugin.PLUGIN_ID,
@@ -88,7 +101,7 @@ public abstract class AbstractGdtProjectConfigurator extends
 		}
 	}
 
-	protected IPath getWarSrcDir(IProject project, MavenProject mavenProject) {
+	protected IFolder getWarSrcDir(IProject project, MavenProject mavenProject) {
 		assert project != null;
 		assert mavenProject != null;
 		Plugin warPlugin = mavenProject.getPlugin(MAVEN_WAR_PLUGIN);
@@ -108,7 +121,7 @@ public abstract class AbstractGdtProjectConfigurator extends
 		}
 		warSrcDir = (warSrcDir == null) ? WAR_SOURCE_FOLDER : warSrcDir;
 
-		return project.getFolder(warSrcDir).getProjectRelativePath();
+		return project.getFolder(warSrcDir);
 	}
 
 	protected void checkMissingSDKSeverity(IJavaProject javaProject,
@@ -127,7 +140,7 @@ public abstract class AbstractGdtProjectConfigurator extends
 						// forbidden.
 						// Since we can't change the severity via the API,
 						// we'll just log a red warning in the console
-						console.logError("Warning : you should reduce the severity level for"
+						LOGGER.error("Warning : you should reduce the severity level for"
 								+ " Window > Preferences > Google > Errors/Warnings > "
 								+ ProjectStructureOrSdkProblemType.NO_SDK
 										.getCategory().getDisplayName()
@@ -146,7 +159,7 @@ public abstract class AbstractGdtProjectConfigurator extends
 					}
 				}
 			} catch (JavaModelException e) {
-				console.logError("Unable to find GWT SDK for "
+				LOGGER.error("Unable to find GWT SDK for "
 						+ javaProject.getElementName());
 				// Swallow the exception for now, since we just want to warn
 				// users
@@ -193,7 +206,7 @@ public abstract class AbstractGdtProjectConfigurator extends
 		int offset = 0;
 		for (int i = 0; i < newClasspathEntries.length; i++) {
 			IClasspathEntry iClasspathEntry = prevClasspathEntries[i - offset];
-			if ("org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"
+			if ("org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"
 					.equals(iClasspathEntry.getPath().segment(0))) {
 				newClasspathEntries[i++] = JavaCore.newContainerEntry(new Path(
 						gwtLibrairyPath.toString()), null, null, false);
