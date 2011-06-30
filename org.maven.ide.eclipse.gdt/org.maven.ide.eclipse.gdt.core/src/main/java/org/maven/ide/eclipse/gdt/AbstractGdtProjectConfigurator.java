@@ -8,7 +8,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -30,16 +29,16 @@ import com.google.gdt.eclipse.core.sdk.AbstractSdk;
 public abstract class AbstractGdtProjectConfigurator extends
 		AbstractProjectConfigurator {
 
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGdtProjectConfigurator.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AbstractGdtProjectConfigurator.class);
+
 	private static final String MAVEN_WAR_PLUGIN = "org.apache.maven.plugins:maven-war-plugin";
 
 	private static final String WAR_SOURCE_FOLDER = "src/main/webapp";
 
 	@Override
 	public void configure(ProjectConfigurationRequest request,
-			IProgressMonitor monitor)  {
+			IProgressMonitor monitor) {
 		MavenProject mavenProject = request.getMavenProject();
 		IProject project = request.getProject();
 		IJavaProject javaProject = JavaCore.create(project);
@@ -86,12 +85,15 @@ public abstract class AbstractGdtProjectConfigurator extends
 			try {
 				if (!warSrcDir.equals(WebAppProjectProperties
 						.getWarSrcDir(project))) {
-					WebAppProjectProperties.setWarSrcDir(project, warSrcDir.getProjectRelativePath());
+					WebAppProjectProperties.setWarSrcDir(project,
+							warSrcDir.getProjectRelativePath());
 				}
 				WebAppProjectProperties.setWarSrcDirIsOutput(project, false);
-				
-				WebAppProjectProperties.setLastUsedWarOutLocation(project, project.getFolder("target/m2e-wtp/web-resources").getRawLocation());
-				
+
+				WebAppProjectProperties.setLastUsedWarOutLocation(project,
+						project.getFolder("target/m2e-wtp/web-resources")
+								.getRawLocation());
+
 			} catch (BackingStoreException e) {
 				throw new CoreException(new Status(IStatus.ERROR,
 						MavenGdtPlugin.PLUGIN_ID,
@@ -136,21 +138,24 @@ public abstract class AbstractGdtProjectConfigurator extends
 				if (sdk == null) {
 
 					if (severity == GdtProblemSeverity.ERROR) {
-						// TODO Access to the Google Preferences classes is
-						// forbidden.
-						// Since we can't change the severity via the API,
-						// we'll just log a red warning in the console
-						LOGGER.error("Warning : you should reduce the severity level for"
+						LOGGER.info("We ignore the absence of lib as they are provided by maven");
+						GdtProblemSeverities.getInstance().setSeverity(
+								ProjectStructureOrSdkProblemType.NO_SDK,
+								GdtProblemSeverity.IGNORE);
+
+						LOGGER.info("We are reducing the severity level for"
 								+ " Window > Preferences > Google > Errors/Warnings > "
 								+ ProjectStructureOrSdkProblemType.NO_SDK
 										.getCategory().getDisplayName()
 								+ " > "
 								+ ProjectStructureOrSdkProblemType.NO_SDK
 										.getDescription());
-						insurePresenceOfGWTDependency(monitor, javaProject,
-								null);
+						GdtLockedAPIHelper.setEncodedProblemSeverities(GdtProblemSeverities
+								.getInstance().toPreferenceString());
 						return;
 					}
+
+					//insurePresenceOfGWTDependency(monitor, javaProject, null);
 
 				} else {
 					if (severity == GdtProblemSeverity.IGNORE) {
@@ -169,56 +174,12 @@ public abstract class AbstractGdtProjectConfigurator extends
 		return;
 	}
 
+	
 	protected abstract AbstractSdk findSDK(IJavaProject javaProject)
 			throws JavaModelException;
-
-	/**
-	 * Add the GWT SDK Library if not yet in the classpath. It must be added
-	 * <b>before</b> the Maven classpath container or the GEP will complaint that the
-	 * GWT SDK is not found.
-	 * 
-	 * @param monitor
-	 * @param javaProject
-	 * @param gwtVersion
-	 * @throws JavaModelException
-	 */
-	private void insurePresenceOfGWTDependency(IProgressMonitor monitor,
-			IJavaProject javaProject, String gwtVersion)
-			throws JavaModelException {
-
-		IClasspathEntry prevClasspathEntries[] = javaProject.getRawClasspath();
-
-		for (int i = 0; i < prevClasspathEntries.length; i++) {
-			IClasspathEntry iClasspathEntry = prevClasspathEntries[i];
-			if ("com.google.gwt.eclipse.core.GWT_CONTAINER"
-					.equals(iClasspathEntry.getPath().segment(0))) {
-				return;
-			}
-		}
-		StringBuilder gwtLibrairyPath = new StringBuilder(
-				"com.google.gwt.eclipse.core.GWT_CONTAINER");
-		if (gwtVersion != null) {
-			gwtLibrairyPath.append('/').append(gwtVersion);
-		}
-
-		IClasspathEntry newClasspathEntries[] = new IClasspathEntry[prevClasspathEntries.length + 1];
-
-		int offset = 0;
-		for (int i = 0; i < newClasspathEntries.length; i++) {
-			IClasspathEntry iClasspathEntry = prevClasspathEntries[i - offset];
-			if ("org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"
-					.equals(iClasspathEntry.getPath().segment(0))) {
-				newClasspathEntries[i++] = JavaCore.newContainerEntry(new Path(
-						gwtLibrairyPath.toString()), null, null, false);
-				offset = 1;
-			}
-			newClasspathEntries[i] = iClasspathEntry;
-
-		}
-
-		javaProject.setRawClasspath(newClasspathEntries, monitor);
-	}
-
+	
+	
+	
 	/**
 	 * Remove the GWT SDK Library if found in the classpath.
 	 * 

@@ -11,6 +11,7 @@ public class MavenGdtPlugin extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.maven.ide.eclipse.gdt";
 
+	
 	// The shared instance
 	private static MavenGdtPlugin plugin;
 	
@@ -18,14 +19,13 @@ public class MavenGdtPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public MavenGdtPlugin() {
-		System.out.println("MavenGdtPlugin created");
 	}
 
 	/**
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
+//	@SuppressWarnings("restriction")
 	public void start(BundleContext context) throws Exception {
-		System.out.println("Starting MavenGdtPlugin");
 		super.start(context);
 		plugin = this;
 	}

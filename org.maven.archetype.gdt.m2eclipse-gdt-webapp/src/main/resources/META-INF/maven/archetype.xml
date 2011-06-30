@@ -10,7 +10,7 @@
     <source>src/main/java/GWTSample.gwt.xml</source>
   </sources>
   
-  <resources >
+  <resources>
     <resource>src/main/webapp/WEB-INF/web.xml</resource>
     <resource>src/main/webapp/GWTSample.html</resource>
     <resource>src/main/webapp/GWTSample.css</resource>
