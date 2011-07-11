@@ -20,7 +20,9 @@
             id="org.maven.ide.eclipse.gdt.gaeProjectConfigurator">
       </configurator>
    </extension>
-   <extension
+
+<!--
+<extension
          point="org.eclipse.ui.preferencePages">
       <page
             class="org.maven.ide.eclipse.gdt.core.preferences.MavenGWTPreferencePage"
@@ -48,5 +50,5 @@
          </filter>
       </page>
    </extension>
-
+-->
 </plugin>
