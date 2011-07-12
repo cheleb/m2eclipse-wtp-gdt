@@ -15,6 +15,15 @@
    <extension
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
+            class="org.maven.ide.eclipse.gdt.gwt.GwtI18NProjectConfigurator"
+            name="GWT Configurator"
+            id="org.maven.ide.eclipse.gdt.gwtI18NProjectConfigurator">
+      </configurator>
+   </extension>
+   
+   <extension
+         point="org.eclipse.m2e.core.projectConfigurators">
+      <configurator
             class="org.maven.ide.eclipse.gdt.gae.GaeProjectConfigurator"
             name="GAE Configurator"
             id="org.maven.ide.eclipse.gdt.gaeProjectConfigurator">
