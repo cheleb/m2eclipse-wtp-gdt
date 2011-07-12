@@ -8,6 +8,7 @@
     <source>src/main/java/server/GreetingServiceImpl.java</source>
     <source>src/main/java/shared/FieldVerifier.java</source>
     <source>src/main/java/GWTSample.gwt.xml</source>
+    <source>src/main/java/Messages.properties</source>
   </sources>
   
   <resources>
