@@ -1,20 +1,31 @@
 package org.maven.ide.eclipse.gdt.gwt;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecution;
 import org.codehaus.plexus.util.Scanner;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.lifecyclemapping.model.IPluginExecutionMetadata;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.configurator.MojoExecutionBuildParticipant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
 public class GWTI18NBuildParticipant extends MojoExecutionBuildParticipant {
+	
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(GWTI18NBuildParticipant.class);
 
 	public GWTI18NBuildParticipant(IMavenProjectFacade projectFacade,
 			MojoExecution execution, IPluginExecutionMetadata executionMetadata) {
@@ -27,11 +38,36 @@ public class GWTI18NBuildParticipant extends MojoExecutionBuildParticipant {
 		IMaven maven = MavenPlugin.getMaven();
 		BuildContext buildContext = getBuildContext();
 
-		File bundleFiles[] = maven.getMojoParameterValue(getSession(),
-				getMojoExecution(), "i18nConstantsBundles", File[].class);
+		List<String> bundleFilesAsString = new ArrayList<String>();
+		bundleFilesAsString.addAll(getBundles(maven, "i18nMessagesBundles"));
+		bundleFilesAsString.addAll(getBundles(maven, "i18nConstantsBundles"));
+		bundleFilesAsString.addAll(getBundles(maven, "i18nConstantsWithLookupBundles"));
+
+		List<File> bundleFiles = new ArrayList<File>();
+
+		String sourceDirectory = getMavenProjectFacade().getMavenProject()
+				.getBuild().getSourceDirectory();
+
+		List<Resource> resources = getMavenProjectFacade().getMavenProject()
+				.getBuild().getResources();
+
+		List<String> searchPath = new ArrayList<String>();
+		searchPath.add(sourceDirectory);
+		for (Resource resource : resources) {
+			searchPath.add(resource.getDirectory());
+		}
+
+		for (String bundleFileAsString : bundleFilesAsString) {
+
+			File file = findBundleFile(bundleFileAsString, searchPath);
+			if (file != null) {
+				bundleFiles.add(file);
+			}
+		}
 
 		if (determineIfShouldRun(buildContext, bundleFiles)) {
 
+			LOGGER.debug("Executing build participant " + GWTI18NBuildParticipant.class.getName() + " for plugin execution: " + getMojoExecution());
 			Set<IProject> result = super.build(kind, monitor);
 
 			// tell m2e builder to refresh generated files
@@ -47,19 +83,45 @@ public class GWTI18NBuildParticipant extends MojoExecutionBuildParticipant {
 
 	}
 
-	private boolean determineIfShouldRun(BuildContext buildContext,
-			File[] bundleFiles) {
+	private Collection<? extends String> getBundles(IMaven maven, String typeBundle)
+			throws CoreException {
+		String bundleFilesAsString[] = maven.getMojoParameterValue(
+				getSession(), getMojoExecution(), typeBundle,
+				String[].class);
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < bundleFilesAsString.length; i++) {
+			String bundle = bundleFilesAsString[i];
+			LOGGER.info("Searching bundle (" + typeBundle + "): " + bundle);
+			list.add(bundle.replaceAll("\\.", "/") + ".properties");
+		}
 
-		if (bundleFiles != null && bundleFiles.length > 0) {
-			for (File file : bundleFiles) {
-				Scanner scanner = buildContext.newScanner(file);
-				scanner.scan();
-				String[] includedFiles = scanner.getIncludedFiles();
-				if (includedFiles != null && includedFiles.length > 0) {
-					return true;
-				}
+		return list;
+	}
+
+	private File findBundleFile(String bundleFileAsString,
+			List<String> searchPath) {
+		for (String resourcePath : searchPath) {
+			File file = new File(resourcePath, bundleFileAsString);
+			if (file != null && file.exists()) {
+				LOGGER.info("Find bundle: " + bundleFileAsString + " (" + resourcePath + ")");
+				return file;
 			}
 		}
+		return null;
+	}
+
+	private boolean determineIfShouldRun(BuildContext buildContext,
+			List<File> bundleFiles) {
+
+		for (File file : bundleFiles) {
+			Scanner scanner = buildContext.newScanner(file);
+			scanner.scan();
+			String[] includedFiles = scanner.getIncludedFiles();
+			if (includedFiles != null && includedFiles.length > 0) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 

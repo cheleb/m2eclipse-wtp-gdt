@@ -44,7 +44,10 @@ public class GwtI18NProjectConfigurator extends AbstractJavaProjectConfigurator 
 	}
 	
 	
-	
+	@Override
+	protected String getOutputFolderParameterName() {
+		return "generateDirectory";
+	}
 	
 	
 	

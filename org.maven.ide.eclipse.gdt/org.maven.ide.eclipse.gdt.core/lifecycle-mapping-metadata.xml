@@ -25,7 +25,7 @@
 				<artifactId>gwt-maven-plugin</artifactId>
 				<versionRange>[2.3.0,)</versionRange>
 				<goals>
-					<goal>compile</goal>
+					<goal>i18n</goal>
 				</goals>
 			</pluginExecutionFilter>
 			<action>
