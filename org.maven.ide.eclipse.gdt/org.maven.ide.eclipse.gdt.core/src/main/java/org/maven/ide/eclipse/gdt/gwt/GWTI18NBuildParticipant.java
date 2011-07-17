@@ -1,5 +1,8 @@
 package org.maven.ide.eclipse.gdt.gwt;
 
+/**
+ * @author NOUGUIER Olivier olivier.nouguier@gmail.com
+ */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
