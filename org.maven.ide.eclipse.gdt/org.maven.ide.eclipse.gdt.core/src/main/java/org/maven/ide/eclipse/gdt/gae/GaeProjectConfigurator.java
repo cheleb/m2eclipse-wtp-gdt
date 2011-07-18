@@ -27,13 +27,13 @@ public class GaeProjectConfigurator extends AbstractGdtProjectConfigurator {
 		}
 
 		@Override
-		protected void configureNature(IProject project, IProgressMonitor monitor) throws CoreException {
-			if (!GaeNature.isGaeProject(project)) {
-				LOGGER.info("Adding GAE nature to " + project.getName());
-				GaeNature.addNatureToProject(project);
+		protected void configureNature(IJavaProject project, IProgressMonitor monitor) throws CoreException {
+			if (!GaeNature.isGaeProject(project.getProject())) {
+				LOGGER.info("Adding GAE nature to " + project.getProject().getName());
+				GaeNature.addNatureToProject(project.getProject());
 			}
-			configureORM(project);
-			configureValidation(project);
+			configureORM(project.getProject());
+			configureValidation(project.getProject());
 		}
 
 		private void configureORM(IProject project) {

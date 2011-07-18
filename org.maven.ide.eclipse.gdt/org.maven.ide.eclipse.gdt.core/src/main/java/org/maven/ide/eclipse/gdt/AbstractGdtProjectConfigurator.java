@@ -6,6 +6,7 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -13,8 +14,11 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
 import org.eclipse.m2e.jdt.AbstractJavaProjectConfigurator;
+import org.maven.ide.eclipse.wtp.MavenWtpConstants;
+import org.maven.ide.eclipse.wtp.ProjectUtils;
 import org.osgi.service.prefs.BackingStoreException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +31,7 @@ import com.google.gdt.eclipse.core.sdk.AbstractSdk;
 
 @SuppressWarnings("restriction")
 public abstract class AbstractGdtProjectConfigurator extends
-		AbstractJavaProjectConfigurator {
+		AbstractProjectConfigurator {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractGdtProjectConfigurator.class);
@@ -41,11 +45,27 @@ public abstract class AbstractGdtProjectConfigurator extends
 			IProgressMonitor monitor) {
 		MavenProject mavenProject = request.getMavenProject();
 		IProject project = request.getProject();
+		if(!project.exists()) {
+			try {
+				project.create(monitor);
+			} catch (CoreException e) {
+				LOGGER.error("Could not create project: " + project.getName(), e);
+			}
+		}
 		IJavaProject javaProject = JavaCore.create(project);
 		try {
+			if(javaProject.isConsistent()) {
+				LOGGER.info("Good");
+			}
+		} catch (JavaModelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			
 			if (isConfigurable(mavenProject)) {
 				checkMissingSDKSeverity(javaProject, monitor);
-				configureNature(project, monitor);
+				configureNature(javaProject, monitor);
 
 				if (isWebapp(mavenProject)) {
 					configureWebapp(project, mavenProject);
@@ -64,7 +84,7 @@ public abstract class AbstractGdtProjectConfigurator extends
 
 	protected abstract boolean isConfigurable(MavenProject mavenProject);
 
-	protected abstract void configureNature(IProject project,
+	protected abstract void configureNature(IJavaProject project,
 			IProgressMonitor monitor) throws CoreException;
 
 	protected void configureDeploymentSettings(IProject project,
@@ -90,9 +110,13 @@ public abstract class AbstractGdtProjectConfigurator extends
 				}
 				WebAppProjectProperties.setWarSrcDirIsOutput(project, false);
 
+				
+				
+				IPath wtpTargetFolder = ProjectUtils.getM2eclipseWtpFolder(mavenProject, project).append(MavenWtpConstants.WEB_RESOURCES_FOLDER); 
+				//String wtpTargetFolder = "target/m2e-wtp/web-resources";
+				
 				WebAppProjectProperties.setLastUsedWarOutLocation(project,
-						project.getFolder("target/m2e-wtp/web-resources")
-								.getRawLocation());
+						project.getFolder(wtpTargetFolder).getRawLocation());
 
 			} catch (BackingStoreException e) {
 				throw new CoreException(new Status(IStatus.ERROR,

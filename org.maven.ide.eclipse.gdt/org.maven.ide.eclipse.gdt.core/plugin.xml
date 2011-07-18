@@ -8,8 +8,15 @@
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
             class="org.maven.ide.eclipse.gdt.gwt.GwtProjectConfigurator"
-            name="GWT Configurator"
-            id="org.maven.ide.eclipse.gdt.gwtProjectConfigurator">
+            id="org.maven.ide.eclipse.gdt.gwtProjectConfigurator"
+            name="GWT Configurator">
+      </configurator>
+   </extension>
+   <extension
+         point="org.eclipse.m2e.core.projectConfigurators">
+      <configurator
+            class="org.maven.ide.eclipse.gdt.gwt.GwtProjectConfiguratorForBuildParticipant"
+            id="org.maven.ide.eclipse.gdt.gwtProjectConfiguratorForBuildParticipant">
       </configurator>
    </extension>
    <!--
