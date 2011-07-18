@@ -1,26 +1,44 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.maven.archetype.gdt</groupId>
-  <artifactId>m2eclipse-gwt-webapp</artifactId>
-  <version>1.0.0</version>
-  <name>Orcades LR GWT Webapp Archetype</name>
-  <description>An archetype to bootstart a GWT webapp.</description>
-  <licenses>
-   <license>
-    <name>Apache 2</name>
-    <comments>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.maven.archetype.gdt</groupId>
+	<artifactId>m2eclipse-gwt-webapp</artifactId>
+	<version>1.0.0</version>
+	<name>Orcades LR GWT Webapp Archetype</name>
+	<description>An archetype to bootstart a GWT webapp.</description>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<comments>
      Enjoy :)
     </comments>
-   </license>
-  </licenses>
-  <distributionManagement>
-    <repository>
-     <id>orcades</id>
-     <name>Orcades LR internal Maven Repository</name>
-     <uniqueVersion>true</uniqueVersion>
-     <url>http://localhost:8081/nexus/content/repositories/releases/</url>
-    </repository>
-  </distributionManagement>
-  
-  
+		</license>
+	</licenses>
+	<distributionManagement>
+		<repository>
+			<id>orcades</id>
+			<name>Orcades LR internal Maven Repository</name>
+			<uniqueVersion>true</uniqueVersion>
+			<url>http://localhost:8081/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
+
+
 </project>

@@ -3,7 +3,6 @@
   <id>orcades-gwt-webapp</id>
   <sources>
     <source>src/main/java/client/GreetingService.java</source>
-    <source>src/main/java/client/GreetingServiceAsync.java</source>
     <source>src/main/java/client/GWTSample.java</source>
     <source>src/main/java/server/GreetingServiceImpl.java</source>
     <source>src/main/java/shared/FieldVerifier.java</source>
