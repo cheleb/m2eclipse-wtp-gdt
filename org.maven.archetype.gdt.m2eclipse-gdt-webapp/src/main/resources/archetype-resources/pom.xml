@@ -33,21 +33,17 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>gwt.i18n</id>
+						<id>gwt</id>
 						<goals>
 							<goal>i18n</goal>
+							<goal>generateAsync</goal>
+							<goal>compile</goal>
 						</goals>
 						<configuration>
 							<i18nConstantsBundles>
 								<i18nConstantsBundle>${package}.client.Messages</i18nConstantsBundle>
 							</i18nConstantsBundles>
 						</configuration>
-					</execution>
-					<execution>
-						<id>gwt.compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>

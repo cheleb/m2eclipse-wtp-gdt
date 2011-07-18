@@ -10,6 +10,8 @@
 				<versionRange>[2.3.0,)</versionRange>
 				<goals>
 					<goal>compile</goal>
+					<goal>i18n</goal>
+					<goal>generateAsync</goal>
 				</goals>
 			</pluginExecutionFilter>
 			<action>
@@ -18,23 +20,6 @@
 				</configurator>
 			</action>
 		</pluginExecution>
-		
-		<pluginExecution>
-			<pluginExecutionFilter>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<versionRange>[2.3.0,)</versionRange>
-				<goals>
-					<goal>i18n</goal>
-				</goals>
-			</pluginExecutionFilter>
-			<action>
-				<configurator>
-					<id>org.maven.ide.eclipse.gdt.gwtI18NProjectConfigurator</id>
-				</configurator>
-			</action>
-		</pluginExecution>
-
 		
 	</pluginExecutions>
 	

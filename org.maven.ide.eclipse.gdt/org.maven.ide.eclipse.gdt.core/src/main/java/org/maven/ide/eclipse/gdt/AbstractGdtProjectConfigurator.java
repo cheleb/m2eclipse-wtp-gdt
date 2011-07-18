@@ -13,8 +13,8 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
+import org.eclipse.m2e.jdt.AbstractJavaProjectConfigurator;
 import org.osgi.service.prefs.BackingStoreException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ import com.google.gdt.eclipse.core.sdk.AbstractSdk;
 
 @SuppressWarnings("restriction")
 public abstract class AbstractGdtProjectConfigurator extends
-		AbstractProjectConfigurator {
+		AbstractJavaProjectConfigurator {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractGdtProjectConfigurator.class);

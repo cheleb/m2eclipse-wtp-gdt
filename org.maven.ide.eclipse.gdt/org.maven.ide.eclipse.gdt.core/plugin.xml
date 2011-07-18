@@ -12,6 +12,7 @@
             id="org.maven.ide.eclipse.gdt.gwtProjectConfigurator">
       </configurator>
    </extension>
+   <!--
    <extension
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
@@ -28,7 +29,9 @@
             name="GAE Configurator"
             id="org.maven.ide.eclipse.gdt.gaeProjectConfigurator">
       </configurator>
+      
    </extension>
+    -->
 
 <!--
 <extension
