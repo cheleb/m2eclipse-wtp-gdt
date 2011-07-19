@@ -16,7 +16,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
-import org.eclipse.m2e.jdt.AbstractJavaProjectConfigurator;
 import org.maven.ide.eclipse.wtp.MavenWtpConstants;
 import org.maven.ide.eclipse.wtp.ProjectUtils;
 import org.osgi.service.prefs.BackingStoreException;
@@ -53,13 +52,9 @@ public abstract class AbstractGdtProjectConfigurator extends
 			}
 		}
 		IJavaProject javaProject = JavaCore.create(project);
-		try {
-			if(javaProject.isConsistent()) {
-				LOGGER.info("Good");
-			}
-		} catch (JavaModelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(javaProject == null ) {
+			LOGGER.error("Could not get JavaProject for " + project.getName() + " abording!");
+			return;
 		}
 		try {
 			

@@ -15,104 +15,106 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.project.configurator.MojoExecutionBuildParticipant;
+import org.maven.ide.eclipse.gdt.gwt.configurators.GWTConfiguratorConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
- * Common participant feature, child class have to implement: 
- *  <li> {@link GWTBuildParticipant#getResourcesToScan()} <li>
- *  And might implement:
- *  <li> {@link GWTBuildParticipant#getSearchPath()} </li>
+ * Common participant feature, child class have to implement: <li>
+ * {@link GWTBuildParticipant#getResourcesToScan()} <li>
+ * And might implement: <li> {@link GWTBuildParticipant#getSearchPath()}</li>
+ * 
  * @author Olivier NOUGUIER olivier.nouguier@gmail.com
- *
+ * 
  */
 public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant {
 
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(GWTI18NBuildParticipant.class);
-	
-	public GWTBuildParticipant(MojoExecution execution, boolean runOnIncremental) {
-		super(execution, runOnIncremental);
-	}
+    private static final Logger LOGGER = LoggerFactory.getLogger(GWTI18NBuildParticipant.class);
 
-	@Override
-	public Set<IProject> build(int kind, IProgressMonitor monitor)
-			throws Exception {
-		IMaven maven = MavenPlugin.getMaven();
-		
-		BuildContext buildContext = getBuildContext();
+    public GWTBuildParticipant(MojoExecution execution, boolean runOnIncremental) {
+        super(execution, runOnIncremental);
+    }
 
-		List<File> bundleFiles = getResourcesToScan();
-		
-		if (determineIfShouldRun(buildContext, bundleFiles)) {
+    @Override
+    public Set<IProject> build(int kind, IProgressMonitor monitor) throws Exception {
+        IMaven maven = MavenPlugin.getMaven();
 
-			LOGGER.debug("Executing build participant "
-					+ GWTI18NBuildParticipant.class.getName()
-					+ " for plugin execution: " + getMojoExecution());
-			Set<IProject> result = super.build(kind, monitor);
+        BuildContext buildContext = getBuildContext();
 
-			// tell m2e builder to refresh generated files
-			File generated = maven.getMojoParameterValue(getSession(),
-					getMojoExecution(), "generateDirectory", File.class);
-			if (generated != null) {
-				buildContext.refresh(generated);
-				// Have to touch the project, look like GPE validator are needing this (?)
-				getMavenProjectFacade().getProject().touch(monitor);
-				buildContext.refresh(getMavenProjectFacade().getProject().getFolder("src").getLocation().toFile());
-				
-			}
+        List<File> bundleFiles = getResourcesToScan();
 
-			return result;
-		}
-		return null;
+        if (determineIfShouldRun(buildContext, bundleFiles)) {
 
-	}
+            LOGGER.debug("Executing build participant " + GWTI18NBuildParticipant.class.getName() + " for plugin execution: "
+                    + getMojoExecution());
+            Set<IProject> result = super.build(kind, monitor);
 
-	/**
-	 * Determines the file(s) or folder(s) that should be stated as input for mojo processing.
-	 * @return
-	 * @throws CoreException
-	 */
-	protected abstract List<File> getResourcesToScan() throws CoreException;
+            // tell m2e builder to refresh generated files
+            File generated = maven.getMojoParameterValue(getSession(), getMojoExecution(), GWTConfiguratorConstants.GENERATE_DIRECTORY, File.class);
+            if (generated != null) {
+                buildContext.refresh(generated);
+                // Have to touch the project, look like GPE validator are
+                // needing this (?)
+                getMavenProjectFacade().getProject().touch(monitor);
 
-	/**
-	 * Return the absolute path for searching (relative) resources. By default, java + resources.
-	 * @return
-	 */
-	protected List<IPath> getSearchPath() {
-		List<IPath> searchPath = new ArrayList<IPath>();
+            }
 
-		IPath[] sourcesLocations = getMavenProjectFacade().getCompileSourceLocations();
+            return result;
+        }
+        LOGGER.debug("Nothing to do!");
+        return null;
 
-		Collections.addAll(searchPath, sourcesLocations);
-		
-		IPath[] resourcesLocations = getMavenProjectFacade().getResourceLocations();
-		
-		Collections.addAll(searchPath, resourcesLocations);
-		
-		return searchPath;
-	}
-	
-	/**
-	 * Check if there is something to do.
-	 * @param buildContext
-	 * @param bundleFiles
-	 * @return
-	 */
-	private boolean determineIfShouldRun(BuildContext buildContext,
-			List<File> bundleFiles) {
+    }
 
-		for (File file : bundleFiles) {
-			Scanner scanner = buildContext.newScanner(file);
-			scanner.scan();
-			String[] includedFiles = scanner.getIncludedFiles();
-			if (includedFiles != null && includedFiles.length > 0) {
-				return true;
-			}
-		}
+    /**
+     * Determines the file(s) or folder(s) that should be stated as input for
+     * mojo processing.
+     * 
+     * @return
+     * @throws CoreException
+     */
+    protected abstract List<File> getResourcesToScan() throws CoreException;
 
-		return false;
-	}
+    /**
+     * Return the absolute path for searching (relative) resources. By default,
+     * java + resources.
+     * 
+     * @return
+     */
+    protected List<IPath> getSearchPath() {
+        List<IPath> searchPath = new ArrayList<IPath>();
+
+        IPath[] sourcesLocations = getMavenProjectFacade().getCompileSourceLocations();
+
+        Collections.addAll(searchPath, sourcesLocations);
+
+        IPath[] resourcesLocations = getMavenProjectFacade().getResourceLocations();
+
+        Collections.addAll(searchPath, resourcesLocations);
+
+        return searchPath;
+    }
+
+    /**
+     * Check if there is something to do.
+     * 
+     * @param buildContext
+     * @param bundleFiles
+     * @return
+     */
+    private boolean determineIfShouldRun(BuildContext buildContext, List<File> bundleFiles) {
+
+        for (File file : bundleFiles) {
+            Scanner scanner = buildContext.newScanner(file);
+            scanner.scan();
+            String[] includedFiles = scanner.getIncludedFiles();
+            if (includedFiles != null && includedFiles.length > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }

@@ -1,4 +1,4 @@
-package org.maven.ide.eclipse.gdt.gwt;
+package org.maven.ide.eclipse.gdt.gwt.configurators;
 
 import org.apache.maven.project.MavenProject;
 import org.eclipse.core.resources.IProject;
@@ -22,12 +22,12 @@ import com.google.gwt.eclipse.core.runtime.GWTRuntime;
  * @author Fred Bricon
  */
 @SuppressWarnings("restriction")
-public class GwtProjectConfigurator extends AbstractGdtProjectConfigurator {
+public class GWTCompileConfigurator extends AbstractGdtProjectConfigurator {
 
 	private static final String GWT_MAVEN_PLUGIN = "org.codehaus.mojo:gwt-maven-plugin";
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GwtProjectConfigurator.class);
+			.getLogger(GWTCompileConfigurator.class);
 
 	@Override
 	protected boolean isConfigurable(MavenProject mavenProject) {

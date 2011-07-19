@@ -30,5 +30,4 @@ Export-Package: org.maven.ide.eclipse.gdt,
  org.maven.ide.eclipse.gdt.core.properties,
  org.maven.ide.eclipse.gdt.deployment,
  org.maven.ide.eclipse.gdt.deployment.internal,
- org.maven.ide.eclipse.gdt.gae,
- org.maven.ide.eclipse.gdt.gwt
+ org.maven.ide.eclipse.gdt.gae

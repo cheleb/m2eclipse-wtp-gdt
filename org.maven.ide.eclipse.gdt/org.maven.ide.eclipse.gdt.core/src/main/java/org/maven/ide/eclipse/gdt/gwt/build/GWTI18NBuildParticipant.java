@@ -32,7 +32,7 @@ public class GWTI18NBuildParticipant extends GWTBuildParticipant {
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < bundleFilesAsString.length; i++) {
 			String bundle = bundleFilesAsString[i];
-			LOGGER.info("Searching bundle (" + typeBundle + "): " + bundle);
+			LOGGER.debug("Searching bundle (" + typeBundle + "): " + bundle);
 			list.add(bundle.replaceAll("\\.", "/") + ".properties");
 		}
 
@@ -46,7 +46,7 @@ public class GWTI18NBuildParticipant extends GWTBuildParticipant {
 					.getFolder(resourcePath).getLocation().toFile(),
 					bundleFileAsString);
 			if (file != null && file.exists()) {
-				LOGGER.info("Find bundle: " + bundleFileAsString + " ("
+				LOGGER.debug("Find bundle: " + bundleFileAsString + " ("
 						+ resourcePath + ")");
 				return file;
 			}

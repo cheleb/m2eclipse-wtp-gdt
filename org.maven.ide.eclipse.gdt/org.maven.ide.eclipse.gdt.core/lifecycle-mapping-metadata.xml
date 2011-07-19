@@ -14,7 +14,7 @@
 			</pluginExecutionFilter>
 			<action>
 				<configurator>
-					<id>org.maven.ide.eclipse.gdt.gwtProjectConfigurator</id>
+					<id>org.maven.ide.eclipse.gdt.gwt.configurators.GWTCompileConfigurator</id>
 				</configurator>
 			</action>
 		</pluginExecution>
@@ -26,15 +26,31 @@
 				<versionRange>[2.3.0,)</versionRange>
 				<goals>
 					<goal>i18n</goal>
+				</goals>
+			</pluginExecutionFilter>
+			<action>
+				<configurator>
+					<id>org.maven.ide.eclipse.gdt.gwt.configurators.GWTI18NConfigurator</id>
+				</configurator>
+			</action>
+		</pluginExecution>
+
+		<pluginExecution>
+			<pluginExecutionFilter>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<versionRange>[2.3.0,)</versionRange>
+				<goals>
 					<goal>generateAsync</goal>
 				</goals>
 			</pluginExecutionFilter>
 			<action>
 				<configurator>
-					<id>org.maven.ide.eclipse.gdt.gwtProjectConfiguratorForBuildParticipant</id>
+					<id>org.maven.ide.eclipse.gdt.gwt.configurators.GWTGenerateAsyncConfigurator</id>
 				</configurator>
 			</action>
 		</pluginExecution>
+
 		
 	</pluginExecutions>
 	
