@@ -44,13 +44,7 @@ public abstract class AbstractGdtProjectConfigurator extends
 			IProgressMonitor monitor) {
 		MavenProject mavenProject = request.getMavenProject();
 		IProject project = request.getProject();
-		if(!project.exists()) {
-			try {
-				project.create(monitor);
-			} catch (CoreException e) {
-				LOGGER.error("Could not create project: " + project.getName(), e);
-			}
-		}
+		
 		IJavaProject javaProject = JavaCore.create(project);
 		if(javaProject == null ) {
 			LOGGER.error("Could not get JavaProject for " + project.getName() + " abording!");

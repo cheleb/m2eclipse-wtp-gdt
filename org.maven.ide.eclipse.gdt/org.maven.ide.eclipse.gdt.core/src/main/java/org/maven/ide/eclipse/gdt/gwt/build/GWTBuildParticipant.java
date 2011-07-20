@@ -23,14 +23,14 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 /**
  * Common participant feature, child class have to implement: <li>
  * {@link GWTBuildParticipant#getResourcesToScan()} <li>
- * And might implement: <li> {@link GWTBuildParticipant#getSearchPath()}</li>
+ * And might implement: <li> {@link GWTBuildParticipant#getStatedFolders()}</li>
  * 
  * @author Olivier NOUGUIER olivier.nouguier@gmail.com
  * 
  */
 public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GWTI18NBuildParticipant.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GWTBuildParticipant.class);
 
     public GWTBuildParticipant(MojoExecution execution, boolean runOnIncremental) {
         super(execution, runOnIncremental);
@@ -42,16 +42,17 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
 
         BuildContext buildContext = getBuildContext();
 
-        List<File> bundleFiles = getResourcesToScan();
+        List<File> resourcesToStat = getResourcesToScan();
 
-        if (determineIfShouldRun(buildContext, bundleFiles)) {
+        if (determineIfShouldRun(buildContext, resourcesToStat)) {
 
             LOGGER.debug("Executing build participant " + GWTI18NBuildParticipant.class.getName() + " for plugin execution: "
                     + getMojoExecution());
             Set<IProject> result = super.build(kind, monitor);
 
             // tell m2e builder to refresh generated files
-            File generated = maven.getMojoParameterValue(getSession(), getMojoExecution(), GWTConfiguratorConstants.GENERATE_DIRECTORY, File.class);
+            File generated = maven.getMojoParameterValue(getSession(), getMojoExecution(), GWTConfiguratorConstants.GENERATE_DIRECTORY,
+                    File.class);
             if (generated != null) {
                 buildContext.refresh(generated);
                 // Have to touch the project, look like GPE validator are
@@ -74,7 +75,16 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
      * @return
      * @throws CoreException
      */
-    protected abstract List<File> getResourcesToScan() throws CoreException;
+    protected List<File> getResourcesToScan() throws CoreException {
+        List<File> paths = new ArrayList<File>();
+
+        List<IPath> iPaths = getStatedFolders();
+        for (IPath iPath : iPaths) {
+            paths.add(getMavenProjectFacade().getProject().getFolder(iPath).getLocation().toFile());
+        }
+
+        return paths;
+    }
 
     /**
      * Return the absolute path for searching (relative) resources. By default,
@@ -82,7 +92,7 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
      * 
      * @return
      */
-    protected List<IPath> getSearchPath() {
+    protected List<IPath> getStatedFolders() {
         List<IPath> searchPath = new ArrayList<IPath>();
 
         IPath[] sourcesLocations = getMavenProjectFacade().getCompileSourceLocations();
@@ -100,21 +110,28 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
      * Check if there is something to do.
      * 
      * @param buildContext
-     * @param bundleFiles
+     * @param resourcesToStat
      * @return
      */
-    private boolean determineIfShouldRun(BuildContext buildContext, List<File> bundleFiles) {
+    protected boolean determineIfShouldRun(BuildContext buildContext, List<File> resourcesToStat) {
 
-        for (File file : bundleFiles) {
-            Scanner scanner = buildContext.newScanner(file);
+
+        for (File statedFolder : resourcesToStat) {
+            Scanner scanner = buildContext.newScanner(statedFolder);
+
             scanner.scan();
             String[] includedFiles = scanner.getIncludedFiles();
             if (includedFiles != null && includedFiles.length > 0) {
-                return true;
+                for (int i = 0; i < includedFiles.length; i++) {
+                    if (fileConcerned(statedFolder, includedFiles[i])) {
+                        return true;
+                    }
+                }
             }
-        }
 
+        }
         return false;
     }
 
+    protected abstract boolean fileConcerned(File statedFolder, String file);
 }
