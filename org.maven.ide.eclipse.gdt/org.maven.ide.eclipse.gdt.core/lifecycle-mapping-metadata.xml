@@ -34,6 +34,23 @@
 				</configurator>
 			</action>
 		</pluginExecution>
+		
+		
+		<pluginExecution>
+			<pluginExecutionFilter>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<versionRange>[2.3.0,)</versionRange>
+				<goals>
+					<goal>css</goal>
+				</goals>
+			</pluginExecutionFilter>
+			<action>
+				<configurator>
+					<id>org.maven.ide.eclipse.gdt.gwt.configurators.GWTCSSConfigurator</id>
+				</configurator>
+			</action>
+		</pluginExecution>
 
 		<pluginExecution>
 			<pluginExecutionFilter>

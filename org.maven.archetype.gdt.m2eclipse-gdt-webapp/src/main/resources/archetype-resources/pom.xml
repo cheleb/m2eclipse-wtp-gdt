@@ -45,6 +45,18 @@
 							</i18nConstantsBundles>
 						</configuration>
 					</execution>
+					<execution>
+						<id>css</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>css</goal>
+						</goals>
+						<configuration>
+							<cssFiles>
+								<cssFile>css/my.css</cssFile>
+							</cssFiles>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 

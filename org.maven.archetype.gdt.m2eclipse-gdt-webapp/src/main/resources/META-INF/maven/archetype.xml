@@ -14,6 +14,7 @@
     <resource>src/main/webapp/WEB-INF/web.xml</resource>
     <resource>src/main/webapp/GWTSample.html</resource>
     <resource>src/main/webapp/GWTSample.css</resource>
+    <resource>src/main/resources/css/my.css</resource>
   </resources>
   
   <testSources>

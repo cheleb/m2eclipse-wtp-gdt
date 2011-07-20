@@ -21,6 +21,15 @@
             >
       </configurator>
    </extension>
+    <extension
+         point="org.eclipse.m2e.core.projectConfigurators">
+      <configurator
+            class="org.maven.ide.eclipse.gdt.gwt.configurators.GWTCSSConfigurator"
+            id="org.maven.ide.eclipse.gdt.gwt.configurators.GWTCSSConfigurator"
+            name="GWT CSS configurator"
+            >
+      </configurator>
+   </extension>
    <extension
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
