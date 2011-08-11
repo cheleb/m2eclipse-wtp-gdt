@@ -76,6 +76,7 @@
 				<versionRange>[2.3.0,)</versionRange>
 				<goals>
 					<goal>mergewebxml</goal>
+					<goal>resources</goal>
 				</goals>
 			</pluginExecutionFilter>
 			<action>
