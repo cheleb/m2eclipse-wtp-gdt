@@ -2,7 +2,7 @@
 <feature
       id="org.maven.ide.eclipse.gdt.feature"
       label="Maven Integration for Google Eclipse Plugin"
-      version="0.0.1.qualifier"
+      version="0.0.2.qualifier"
       provider-name="Fred Bricon">
 
    <description url="http://www.example.com/description">
