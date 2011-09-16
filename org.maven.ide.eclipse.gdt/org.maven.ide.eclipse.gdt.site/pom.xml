@@ -11,11 +11,12 @@
   <packaging>eclipse-update-site</packaging>
   <name>Maven Integration for Google Eclipse Plugin : Site</name>
   
+  
   <build>
     <plugins>
       <plugin>
-        <groupId>org.sonatype.tycho</groupId>
-        <artifactId>maven-osgi-packaging-plugin</artifactId>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-packaging-plugin</artifactId>
         <configuration>
           <metadataRepositoryName>Maven Integration for Google Eclipse Plugin</metadataRepositoryName>
           <artifactRepositoryName>Maven Integration for Google Eclipse Plugin</artifactRepositoryName>
