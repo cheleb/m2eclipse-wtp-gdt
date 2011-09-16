@@ -42,9 +42,13 @@ public class GWTGenerateAsyncParticipant extends GWTBuildParticipant {
     @Override
     protected boolean fileConcerned(File statedFolder, String file) {
         if (file.endsWith(".java")) {
-            String qualifiedName = file.substring(0, file.lastIndexOf(".")).replaceAll("/", ".");
+            String qualifiedName = file.substring(0, file.lastIndexOf(".")).replaceAll("/|\\\\", ".");
             try {
                 ITypeBinding binding = JavaASTUtils.resolveType(JavaCore.create(getMavenProjectFacade().getProject()), qualifiedName);
+                if(binding==null) {
+                    LOGGER.error("Could not resolve: " + qualifiedName);
+                    return false;
+                }
                 if(JavaASTUtils.findTypeInHierarchy(binding, "com.google.gwt.user.client.rpc.RemoteService") != null ) {
                     LOGGER.debug(file + " triggers the build");
                     return true;

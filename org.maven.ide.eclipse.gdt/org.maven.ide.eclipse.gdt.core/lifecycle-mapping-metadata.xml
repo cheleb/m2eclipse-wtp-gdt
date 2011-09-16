@@ -67,6 +67,22 @@
 				</configurator>
 			</action>
 		</pluginExecution>
+		
+		
+		<pluginExecution>
+			<pluginExecutionFilter>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<versionRange>[2.3.0,)</versionRange>
+				<goals>
+					<goal>mergewebxml</goal>
+					<goal>resources</goal>
+				</goals>
+			</pluginExecutionFilter>
+			<action>
+				<ignore />
+			</action>
+		</pluginExecution>
 
 		
 	</pluginExecutions>
