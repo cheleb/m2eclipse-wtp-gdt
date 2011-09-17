@@ -1,5 +1,10 @@
 package org.maven.ide.eclipse.gdt;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.model.Plugin;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
@@ -103,6 +108,7 @@ public abstract class AbstractGdtProjectConfigurator extends
 				
 				IPath wtpTargetFolder = ProjectUtils.getM2eclipseWtpFolder(mavenProject, project).append(MavenWtpConstants.WEB_RESOURCES_FOLDER); 
 				//String wtpTargetFolder = "target/m2e-wtp/web-resources";
+
 				
 				WebAppProjectProperties.setLastUsedWarOutLocation(project,
 						project.getFolder(wtpTargetFolder).getRawLocation());
@@ -205,20 +211,21 @@ public abstract class AbstractGdtProjectConfigurator extends
 			IJavaProject javaProject, String gwtVersion)
 			throws JavaModelException {
 		IClasspathEntry prevClasspathEntries[] = javaProject.getRawClasspath();
-		IClasspathEntry newClasspathEntries[] = new IClasspathEntry[prevClasspathEntries.length - 1];
-		boolean found = false;
-		for (int i = 0; i < prevClasspathEntries.length; i++) {
-			IClasspathEntry iClasspathEntry = prevClasspathEntries[i];
+		List<IClasspathEntry> newClasspathEntries = new ArrayList<IClasspathEntry>();
+		Collections.addAll(newClasspathEntries, prevClasspathEntries);
+		
+
+		for (Iterator<IClasspathEntry> it = newClasspathEntries.iterator(); it.hasNext(); /* NO-OPS */) {
+			IClasspathEntry iClasspathEntry = it.next();
 			if ("com.google.gwt.eclipse.core.GWT_CONTAINER"
 					.equals(iClasspathEntry.getPath().segment(0))) {
-				found = true;
-			} else {
-				newClasspathEntries[i] = iClasspathEntry;
-			}
+			    it.remove();
+
+			} 
 		}
 
-		if (found) {
-			javaProject.setRawClasspath(newClasspathEntries, monitor);
+		if (prevClasspathEntries.length != newClasspathEntries.size()) {
+			javaProject.setRawClasspath(newClasspathEntries.toArray(new IClasspathEntry[newClasspathEntries.size()]), monitor);
 		}
 	}
 	

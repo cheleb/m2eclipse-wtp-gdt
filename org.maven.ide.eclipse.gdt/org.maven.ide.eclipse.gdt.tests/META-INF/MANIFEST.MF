@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test projects
 Bundle-SymbolicName: org.maven.ide.eclipse.gdt.tests
-Bundle-Version: 0.0.2.qualifier
+Bundle-Version: 2.4.0
 Bundle-Vendor: Fred Bricon
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.maven.ide.eclipse.gdt.core;bundle-version="0.0.1"
