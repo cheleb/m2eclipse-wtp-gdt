@@ -7,14 +7,6 @@
    <extension
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
-            class="org.maven.ide.eclipse.gdt.gwt.configurators.GWTCompileConfigurator"
-            id="org.maven.ide.eclipse.gdt.gwt.configurators.GWTCompileConfigurator"
-            name="GWT compile configurator">
-      </configurator>
-   </extension>
-   <extension
-         point="org.eclipse.m2e.core.projectConfigurators">
-      <configurator
             class="org.maven.ide.eclipse.gdt.gwt.configurators.GWTI18NConfigurator"
             id="org.maven.ide.eclipse.gdt.gwt.configurators.GWTI18NConfigurator"
             name="GWT I18N configurator"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.maven.ide.eclipse.gdt.feature_0.0.2.qualifier.jar" id="org.maven.ide.eclipse.gdt.feature" version="0.0.2.qualifier"/>
+   <feature url="features/org.maven.ide.eclipse.gdt.feature_2.4.0.jar" id="org.maven.ide.eclipse.gdt.feature" version="2.4.0"/>
    <category-def name="Maven Integration for Google Eclipse Plugin" label="Maven Integration for Google Eclipse Plugin">
       <description>
          Provides m2eclipse configurators for Google GWT and App engine projects
