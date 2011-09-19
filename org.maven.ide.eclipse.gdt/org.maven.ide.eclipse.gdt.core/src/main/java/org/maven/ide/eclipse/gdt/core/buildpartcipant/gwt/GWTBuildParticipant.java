@@ -1,4 +1,4 @@
-package org.maven.ide.eclipse.gdt.gwt.build;
+package org.maven.ide.eclipse.gdt.core.buildpartcipant.gwt;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.project.configurator.MojoExecutionBuildParticipant;
-import org.maven.ide.eclipse.gdt.gwt.configurators.GWTConfiguratorConstants;
+import org.maven.ide.eclipse.gdt.core.configurator.gwt.GWTConfiguratorConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.plexus.build.incremental.BuildContext;

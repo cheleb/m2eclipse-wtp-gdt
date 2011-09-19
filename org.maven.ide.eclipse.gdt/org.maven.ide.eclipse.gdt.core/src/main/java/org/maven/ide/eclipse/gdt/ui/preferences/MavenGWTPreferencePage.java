@@ -1,4 +1,4 @@
-package org.maven.ide.eclipse.gdt.core.preferences;
+package org.maven.ide.eclipse.gdt.ui.preferences;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;

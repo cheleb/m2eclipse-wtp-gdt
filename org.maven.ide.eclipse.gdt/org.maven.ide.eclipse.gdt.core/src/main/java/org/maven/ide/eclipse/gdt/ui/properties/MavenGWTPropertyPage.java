@@ -1,4 +1,4 @@
-package org.maven.ide.eclipse.gdt.core.properties;
+package org.maven.ide.eclipse.gdt.ui.properties;
 
 
 

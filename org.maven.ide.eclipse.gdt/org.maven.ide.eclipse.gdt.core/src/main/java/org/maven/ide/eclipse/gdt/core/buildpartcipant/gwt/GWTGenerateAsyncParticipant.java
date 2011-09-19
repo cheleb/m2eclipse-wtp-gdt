@@ -1,4 +1,4 @@
-package org.maven.ide.eclipse.gdt.gwt.build;
+package org.maven.ide.eclipse.gdt.core.buildpartcipant.gwt;
 
 import java.io.File;
 import java.util.ArrayList;

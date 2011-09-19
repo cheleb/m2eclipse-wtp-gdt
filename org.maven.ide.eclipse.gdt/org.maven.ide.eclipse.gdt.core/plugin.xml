@@ -7,8 +7,8 @@
    <extension
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
-            class="org.maven.ide.eclipse.gdt.gwt.configurators.GWTI18NConfigurator"
-            id="org.maven.ide.eclipse.gdt.gwt.configurators.GWTI18NConfigurator"
+            class="org.maven.ide.eclipse.gdt.core.configurator.gwt.GWTI18NConfigurator"
+            id="org.maven.ide.eclipse.gdt.core.configurator.gwt.GWTI18NConfigurator"
             name="GWT I18N configurator"
             >
       </configurator>
@@ -16,8 +16,8 @@
     <extension
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
-            class="org.maven.ide.eclipse.gdt.gwt.configurators.GWTCSSConfigurator"
-            id="org.maven.ide.eclipse.gdt.gwt.configurators.GWTCSSConfigurator"
+            class="org.maven.ide.eclipse.gdt.core.configurator.gwt.GWTCSSConfigurator"
+            id="org.maven.ide.eclipse.gdt.core.configurator.gwt.GWTCSSConfigurator"
             name="GWT CSS configurator"
             >
       </configurator>
@@ -25,10 +25,19 @@
    <extension
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
-            class="org.maven.ide.eclipse.gdt.gwt.configurators.GWTGenerateAsyncConfigurator"
-            id="org.maven.ide.eclipse.gdt.gwt.configurators.GWTGenerateAsyncConfigurator"
+            class="org.maven.ide.eclipse.gdt.core.configurator.gwt.GWTGenerateAsyncConfigurator"
+            id="org.maven.ide.eclipse.gdt.core.configurator.gwt.GWTGenerateAsyncConfigurator"
             name="GWT I18N configurator"
             >
+      </configurator>
+   </extension>
+   <extension
+         point="org.eclipse.m2e.core.projectConfigurators">
+      <configurator
+            class="org.maven.ide.eclipse.gdt.core.configurator.WTPDeploymentConfigurator"
+            id="org.maven.ide.eclipse.gdt.core.configurators.WTPDeployementConfigurator"
+            name="WTP GWT deployment"
+            secondaryTo="org.maven.ide.eclipse.configuration.wtp.configurator">
       </configurator>
    </extension>
 

@@ -1,4 +1,4 @@
-package org.maven.ide.eclipse.gdt.core.preferences;
+package org.maven.ide.eclipse.gdt.ui.preferences;
 
 /**
  * Constant definitions for plug-in preferences

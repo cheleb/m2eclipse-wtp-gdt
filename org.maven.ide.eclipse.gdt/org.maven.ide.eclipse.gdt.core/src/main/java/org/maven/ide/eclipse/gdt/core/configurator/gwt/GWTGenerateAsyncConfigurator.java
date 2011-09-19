@@ -1,11 +1,11 @@
-package org.maven.ide.eclipse.gdt.gwt.configurators;
+package org.maven.ide.eclipse.gdt.core.configurator.gwt;
 
 import org.apache.maven.plugin.MojoExecution;
 import org.eclipse.m2e.core.lifecyclemapping.model.IPluginExecutionMetadata;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.configurator.AbstractBuildParticipant;
 import org.eclipse.m2e.jdt.AbstractJavaProjectConfigurator;
-import org.maven.ide.eclipse.gdt.gwt.build.GWTGenerateAsyncParticipant;
+import org.maven.ide.eclipse.gdt.core.buildpartcipant.gwt.GWTGenerateAsyncParticipant;
 
 /**
  * Google Web Toolkit Project configurator.

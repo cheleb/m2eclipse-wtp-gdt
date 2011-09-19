@@ -1,4 +1,4 @@
-package org.maven.ide.eclipse.gdt.gwt.configurators;
+package org.maven.ide.eclipse.gdt.core.configurator.gwt;
 
 public interface GWTConfiguratorConstants {
 	static final String GENERATE_DIRECTORY = "generateDirectory";
