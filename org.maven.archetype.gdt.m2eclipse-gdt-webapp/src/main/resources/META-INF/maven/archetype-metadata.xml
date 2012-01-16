@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd"
+  name="org.eclipse.m2e.settings" xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <requiredProperties>
+    <requiredProperty key="gwtVersion">
+      <defaultValue>2.4.0</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="gwtModule"></requiredProperty>
+    <requiredProperty key="name" />
+    <requiredProperty key="classPrefix" />
+    <requiredProperty key="package">
+      <defaultValue>${artifactId}</defaultValue>
+    </requiredProperty>
+  </requiredProperties>
+  <fileSets>
+    <fileSet encoding="UTF-8" filtered="true" >
+      <directory>src</directory>
+    </fileSet>
+  </fileSets>
+</archetype-descriptor>

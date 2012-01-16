@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class GWTSample implements EntryPoint {
+public class ${gwtModule} implements EntryPoint {
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -32,8 +32,8 @@ public class GWTSample implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final ${classPrefix}ServiceAsync ${classPrefix.toLowerCase()}Service = GWT
+			.create(${classPrefix}Service.class);
 
 	/**
 	 * This is the entry point method.
@@ -119,7 +119,7 @@ public class GWTSample implements EntryPoint {
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer,
+				${classPrefix.toLowerCase()}Service.greetServer(textToServer,
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user

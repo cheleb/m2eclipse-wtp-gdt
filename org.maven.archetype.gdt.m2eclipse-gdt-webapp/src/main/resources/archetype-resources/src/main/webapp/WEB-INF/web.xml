@@ -4,18 +4,18 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>${package}.server.GreetingServiceImpl</servlet-class>
+    <servlet-name>${classPrefix.toLowerCase()}Servlet</servlet-name>
+    <servlet-class>${package}.server.${classPrefix}ServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/gwtsample/greet</url-pattern>
+    <servlet-name>${classPrefix.toLowerCase()}Servlet</servlet-name>
+    <url-pattern>/${gwtModule.toLowerCase()}/greet</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>GWTSample.html</welcome-file>
+    <welcome-file>${gwtModule}.html</welcome-file>
   </welcome-file-list>
 	
 </web-app>
