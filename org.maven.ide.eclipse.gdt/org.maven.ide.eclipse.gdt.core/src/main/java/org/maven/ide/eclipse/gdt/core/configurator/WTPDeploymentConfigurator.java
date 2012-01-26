@@ -76,7 +76,7 @@ public class WTPDeploymentConfigurator extends AbstractProjectConfigurator {
                 // String wtpTargetFolder = "target/m2e-wtp/web-resources";
 
                 WebAppProjectProperties.setLastUsedWarOutLocation(project, project.getFolder(wtpTargetFolder).getRawLocation());
-
+                LOGGER.info("Webapp configured for project: " + project.getName());
             } catch (BackingStoreException e) {
                 throw new CoreException(new Status(IStatus.ERROR, MavenGdtPlugin.PLUGIN_ID, "Unable to set war source directory for "
                         + project.getName(), e));

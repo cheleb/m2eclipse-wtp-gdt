@@ -25,8 +25,8 @@ public class GdtLockedAPIHelper {
 
 	
 	private static IEclipsePreferences getConfigurationPreferences() {
-		ConfigurationScope scope = new ConfigurationScope();
-		IEclipsePreferences configurationPrefs = scope
+		
+		IEclipsePreferences configurationPrefs = ConfigurationScope.INSTANCE
 				.getNode(GdtPlugin.PLUGIN_ID);
 		return configurationPrefs;
 	}

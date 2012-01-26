@@ -38,7 +38,7 @@ public class GWTGenerateAsyncParticipant extends GWTBuildParticipant {
         return iPaths;
     }
 
-    @SuppressWarnings("restriction")
+    
     @Override
     protected boolean fileConcerned(File statedFolder, String file) {
         if (file.endsWith(".java")) {

@@ -11,7 +11,6 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -32,7 +31,7 @@ public class MavenGWTPropertyPage extends PropertyPage {
 
 	private Text ownerText;
 	
-	private Button customProperty;
+	//private Button customProperty;
 
 	/**
 	 * Constructor for SamplePropertyPage.
@@ -48,7 +47,7 @@ public class MavenGWTPropertyPage extends PropertyPage {
 		Label customPropertyLabel = new Label(composite, SWT.NONE);
 		customPropertyLabel.setText("Custom property for this project");
 		
-		customProperty = new Button(composite, SWT.CHECK);
+		//customProperty = new Button(composite, SWT.CHECK);
 		
 		//Label for path field
 		Label pathLabel = new Label(composite, SWT.NONE);
