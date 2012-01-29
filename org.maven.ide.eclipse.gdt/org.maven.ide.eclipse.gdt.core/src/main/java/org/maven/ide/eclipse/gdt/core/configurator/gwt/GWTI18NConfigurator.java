@@ -15,19 +15,17 @@ import org.maven.ide.eclipse.gdt.core.buildpartcipant.gwt.GWTI18NBuildParticipan
 
 public class GWTI18NConfigurator extends AbstractJavaProjectConfigurator {
 
-	@Override
-	public AbstractBuildParticipant getBuildParticipant(
-			IMavenProjectFacade projectFacade, MojoExecution execution,
-			IPluginExecutionMetadata executionMetadata) {
+    @Override
+    public AbstractBuildParticipant getBuildParticipant(IMavenProjectFacade projectFacade, MojoExecution execution,
+            IPluginExecutionMetadata executionMetadata) {
 
-		return new GWTI18NBuildParticipant(projectFacade, execution,
-				executionMetadata);
+        return new GWTI18NBuildParticipant(execution);
 
-	}
+    }
 
-	@Override
-	protected String getOutputFolderParameterName() {
-		return GWTConfiguratorConstants.GENERATE_DIRECTORY;
-	}
+    @Override
+    protected String getOutputFolderParameterName() {
+        return GWTConfiguratorConstants.GENERATE_DIRECTORY;
+    }
 
 }

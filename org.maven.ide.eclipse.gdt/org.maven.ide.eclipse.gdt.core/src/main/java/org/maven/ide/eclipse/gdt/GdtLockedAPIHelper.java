@@ -10,33 +10,33 @@ import com.google.gdt.eclipse.suite.GdtPlugin;
 
 /**
  * Temporary class to bypass Gdk API lock.
+ * 
  * @author olivier.nouguier@gmail.com
- *
+ * 
  */
-public class GdtLockedAPIHelper {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(GdtLockedAPIHelper.class);
-	
-	public static void setEncodedProblemSeverities(String encodedSeverities) {
-		IEclipsePreferences configurationPreferences = getConfigurationPreferences();
-		configurationPreferences.put("problemSeverities", encodedSeverities);
-		flushPreferences(configurationPreferences);
-	}
+public final class GdtLockedAPIHelper {
 
-	
-	private static IEclipsePreferences getConfigurationPreferences() {
-		
-		IEclipsePreferences configurationPrefs = ConfigurationScope.INSTANCE
-				.getNode(GdtPlugin.PLUGIN_ID);
-		return configurationPrefs;
-	}
+    private static final Logger LOGGER = LoggerFactory.getLogger(GdtLockedAPIHelper.class);
 
-	private static void flushPreferences(IEclipsePreferences preferences) {
-		try {
-			preferences.flush();
-		} catch (BackingStoreException e) {
-			LOGGER.error("", e);
-		}
-	}
+    private GdtLockedAPIHelper() {
+    }
+
+    public static void setEncodedProblemSeverities(String encodedSeverities) {
+        IEclipsePreferences configurationPreferences = getConfigurationPreferences();
+        configurationPreferences.put("problemSeverities", encodedSeverities);
+        flushPreferences(configurationPreferences);
+    }
+
+    private static IEclipsePreferences getConfigurationPreferences() {
+        return ConfigurationScope.INSTANCE.getNode(GdtPlugin.PLUGIN_ID);
+    }
+
+    private static void flushPreferences(IEclipsePreferences preferences) {
+        try {
+            preferences.flush();
+        } catch (BackingStoreException e) {
+            LOGGER.error("", e);
+        }
+    }
 
 }

@@ -7,7 +7,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -19,9 +18,14 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import org.maven.ide.eclipse.gdt.MavenGdtPlugin;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MavenGWTPropertyPage extends PropertyPage {
 
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(MavenGWTPropertyPage.class);
+    
 	private static final String PATH_TITLE = "Path:";
 	private static final String OWNER_TITLE = "&Owner:";
 	private static final String OWNER_PROPERTY = "OWNER";
@@ -110,8 +114,7 @@ public class MavenGWTPropertyPage extends PropertyPage {
 		try {
 			preferences.sync();
 		} catch (BackingStoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.warn(e.getLocalizedMessage(), e);
 		}
 		
 		return composite;

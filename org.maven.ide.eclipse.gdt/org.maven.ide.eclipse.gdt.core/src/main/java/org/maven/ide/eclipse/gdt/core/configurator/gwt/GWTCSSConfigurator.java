@@ -15,19 +15,17 @@ import org.maven.ide.eclipse.gdt.core.buildpartcipant.gwt.GWTCSSBuildParticipant
 
 public class GWTCSSConfigurator extends AbstractJavaProjectConfigurator {
 
-	@Override
-	public AbstractBuildParticipant getBuildParticipant(
-			IMavenProjectFacade projectFacade, MojoExecution execution,
-			IPluginExecutionMetadata executionMetadata) {
+    @Override
+    public AbstractBuildParticipant getBuildParticipant(IMavenProjectFacade projectFacade, MojoExecution execution,
+            IPluginExecutionMetadata executionMetadata) {
 
-		return new GWTCSSBuildParticipant(projectFacade, execution,
-				executionMetadata);
+        return new GWTCSSBuildParticipant(execution);
 
-	}
+    }
 
-	@Override
-	protected String getOutputFolderParameterName() {
-		return GWTConfiguratorConstants.GENERATE_DIRECTORY;
-	}
+    @Override
+    protected String getOutputFolderParameterName() {
+        return GWTConfiguratorConstants.GENERATE_DIRECTORY;
+    }
 
 }

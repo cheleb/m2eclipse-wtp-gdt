@@ -27,8 +27,12 @@ public class MavenGdtPlugin extends AbstractUIPlugin {
 	/**
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
+	public void start(BundleContext context)  throws GdtException {
+		try {
+            super.start(context);
+        } catch (Exception e) {
+            throw new GdtException(e.getLocalizedMessage(), e);
+        }
 		plugin = this;
 		LOGGER.info("Starting MavenGdtPlugin");
 	}
@@ -36,10 +40,14 @@ public class MavenGdtPlugin extends AbstractUIPlugin {
 	/**
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop(BundleContext context) throws Exception {
+	public void stop(BundleContext context) throws GdtException {
 	    LOGGER.info("Stopping MavenGdtPlugin");
 		plugin = null;
-		super.stop(context);
+		try {
+            super.stop(context);
+        } catch (Exception e) {
+            throw new GdtException(e.getLocalizedMessage(), e);
+        }
 	}
 
 	/**

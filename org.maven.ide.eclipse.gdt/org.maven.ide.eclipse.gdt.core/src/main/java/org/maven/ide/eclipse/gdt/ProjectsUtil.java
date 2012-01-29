@@ -9,8 +9,11 @@ import org.eclipse.core.runtime.IPath;
  * @author Fred Bricon
  *
  */
-public class ProjectsUtil {
+public final class ProjectsUtil {
 	
+    private ProjectsUtil() {
+    }
+    
 	/**
 	 * Return the relative path to a project
 	 * @param project

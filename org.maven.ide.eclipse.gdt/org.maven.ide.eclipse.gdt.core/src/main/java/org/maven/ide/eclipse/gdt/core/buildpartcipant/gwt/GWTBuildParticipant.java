@@ -12,6 +12,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.project.configurator.MojoExecutionBuildParticipant;
@@ -19,6 +21,8 @@ import org.maven.ide.eclipse.gdt.core.configurator.gwt.GWTConfiguratorConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.plexus.build.incremental.BuildContext;
+
+import com.google.gdt.eclipse.suite.GdtPlugin;
 
 /**
  * Common participant feature, child class have to implement: <li>
@@ -37,7 +41,7 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
     }
 
     @Override
-    public Set<IProject> build(int kind, IProgressMonitor monitor) throws Exception {
+    public Set<IProject> build(int kind, IProgressMonitor monitor)  throws CoreException {
         IMaven maven = MavenPlugin.getMaven();
 
         BuildContext buildContext = getBuildContext();
@@ -48,7 +52,12 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
 
             LOGGER.debug("Executing build participant " + GWTI18NBuildParticipant.class.getName() + " for plugin execution: "
                     + getMojoExecution());
-            Set<IProject> result = super.build(kind, monitor);
+            Set<IProject> result;
+            try {
+                result = super.build(kind, monitor);
+            } catch (Exception e) {
+                throw new CoreException(new Status(IStatus.ERROR, GdtPlugin.PLUGIN_ID, e.getLocalizedMessage(), e));
+            }
 
             // tell m2e builder to refresh generated files
             File generated = maven.getMojoParameterValue(getSession(), getMojoExecution(), GWTConfiguratorConstants.GENERATE_DIRECTORY,

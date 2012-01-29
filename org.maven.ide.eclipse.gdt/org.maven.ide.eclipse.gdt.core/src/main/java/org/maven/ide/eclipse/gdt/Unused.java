@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public class Unused {
 	
-	private final static Logger LOGGER = LoggerFactory.getLogger(Unused.class); 
+	private static final Logger LOGGER = LoggerFactory.getLogger(Unused.class); 
 	
 	/**
 	 * Add the GWT SDK Library if not yet in the classpath. It must be added

@@ -20,8 +20,7 @@ public class GWTGenerateAsyncConfigurator extends
 			IMavenProjectFacade projectFacade, MojoExecution execution,
 			IPluginExecutionMetadata executionMetadata) {
 
-		return new GWTGenerateAsyncParticipant(projectFacade, execution,
-				executionMetadata);
+		return new GWTGenerateAsyncParticipant(execution);
 
 	}
 

@@ -10,8 +10,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.eclipse.m2e.core.lifecyclemapping.model.IPluginExecutionMetadata;
-import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +19,7 @@ public class GWTGenerateAsyncParticipant extends GWTBuildParticipant {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GWTGenerateAsyncParticipant.class);
 
-    public GWTGenerateAsyncParticipant(IMavenProjectFacade projectFacade, MojoExecution execution,
-            IPluginExecutionMetadata executionMetadata) {
+    public GWTGenerateAsyncParticipant(MojoExecution execution) {
         super(execution, true);
     }
 
@@ -42,7 +39,7 @@ public class GWTGenerateAsyncParticipant extends GWTBuildParticipant {
     @Override
     protected boolean fileConcerned(File statedFolder, String file) {
         if (file.endsWith(".java")) {
-            String qualifiedName = file.substring(0, file.lastIndexOf(".")).replaceAll("/|\\\\", ".");
+            String qualifiedName = file.substring(0, file.lastIndexOf('.')).replaceAll("/|\\\\", ".");
             try {
                 ITypeBinding binding = JavaASTUtils.resolveType(JavaCore.create(getMavenProjectFacade().getProject()), qualifiedName);
                 if(binding==null) {
