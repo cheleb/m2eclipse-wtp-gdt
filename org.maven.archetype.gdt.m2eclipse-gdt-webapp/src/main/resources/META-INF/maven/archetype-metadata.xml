@@ -7,16 +7,29 @@
     <requiredProperty key="gwtVersion">
       <defaultValue>2.4.0</defaultValue>
     </requiredProperty>
-    <requiredProperty key="gwtModule"></requiredProperty>
+    <requiredProperty key="gwtModule" />
     <requiredProperty key="name" />
     <requiredProperty key="classPrefix" />
-    <requiredProperty key="package">
-      <defaultValue>${artifactId}</defaultValue>
-    </requiredProperty>
+
   </requiredProperties>
   <fileSets>
-    <fileSet encoding="UTF-8" filtered="true" >
-      <directory>src</directory>
+    <fileSet encoding="UTF-8" filtered="true" packaged="true">
+      <directory>src/main/java</directory>
+    </fileSet>
+    <fileSet encoding="UTF-8" filtered="true" packaged="true">
+      <directory>src/main/resources</directory>
+      <excludes>
+        <exclude>css/**/*.*</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet encoding="UTF-8" filtered="true" packaged="false">
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>css/**/*.*</include>
+      </includes>
+    </fileSet>
+     <fileSet encoding="UTF-8" filtered="true" packaged="false">
+      <directory>src/main/webapp</directory>
     </fileSet>
   </fileSets>
 </archetype-descriptor>
