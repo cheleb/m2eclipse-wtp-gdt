@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Maven Integration for Google Eclipse Plugin
 Bundle-SymbolicName: org.maven.ide.eclipse.gdt.core;singleton:=true
-Bundle-Version: 2.4.0
+Bundle-Version: 2.5.0
 Bundle-Activator: org.maven.ide.eclipse.gdt.MavenGdtPlugin
-Bundle-Vendor: Fred Bricon
+Bundle-Vendor: NOUGUIER Olivier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.google.gdt.eclipse.core;bundle-version="2.4.0",

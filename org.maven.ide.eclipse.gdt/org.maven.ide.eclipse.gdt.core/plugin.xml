@@ -37,7 +37,10 @@
             class="org.maven.ide.eclipse.gdt.core.configurator.WTPDeploymentConfigurator"
             id="org.maven.ide.eclipse.gdt.core.configurators.WTPDeployementConfigurator"
             name="WTP GWT deployment"
-            secondaryTo="org.maven.ide.eclipse.configuration.wtp.configurator">
+            secondaryTo="org.maven.ide.eclipse.configuration.wtp.configurator"
+            >
+            //secondaryTo="com.google.gdt.eclipse.maven.e37.googleProjectConfigurator"
+            //secondaryTo="org.maven.ide.eclipse.configuration.wtp.configurator"
       </configurator>
    </extension>
 
