@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd"
+	name="org.eclipse.m2e.settings"
+	xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<requiredProperties>
+		<requiredProperty key="gwtVersion">
+			<defaultValue>2.4.0</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="gwtModule">
+			<defaultValue>MyModule</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="name">
+			<defaultValue>MyName</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="classPrefix">
+			<defaultValue>MyPrefix</defaultValue>
+		</requiredProperty>
+
+	</requiredProperties>
+	<fileSets>
+		<fileSet encoding="UTF-8" filtered="true" packaged="true">
+			<directory>src/main/java</directory>
+		</fileSet>
+		<fileSet encoding="UTF-8" filtered="true" packaged="true">
+			<directory>src/main/resources</directory>
+			<excludes>
+				<exclude>css/**/*.*</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet encoding="UTF-8" filtered="true" packaged="false">
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>css/**/*.*</include>
+			</includes>
+		</fileSet>
+		<fileSet encoding="UTF-8" filtered="true" packaged="false">
+			<directory>src/main/webapp</directory>
+		</fileSet>
+	</fileSets>
+</archetype-descriptor>
