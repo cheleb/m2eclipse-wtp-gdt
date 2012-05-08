@@ -16,10 +16,11 @@
 	<inherits name="com.google.gwt.i18n.I18N" />
 
 	<!-- Inherit GIN. -->
-	<inherits name='com.google.gwt.inject.Inject' />
+	<inherits name='com.google.code.ginmvp.GinMvp' />
+
 
 	<!-- Specify the app entry point class. -->
-	<entry-point class='${package}.client.${gwtModule}' />
+	<entry-point class='${package}.client.${gwtModule}EntryPoint' />
 
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />

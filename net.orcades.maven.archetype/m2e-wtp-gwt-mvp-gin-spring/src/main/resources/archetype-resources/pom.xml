@@ -127,5 +127,10 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.ginmvp</groupId>
+			<artifactId>ginmvp-core</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 </project>
