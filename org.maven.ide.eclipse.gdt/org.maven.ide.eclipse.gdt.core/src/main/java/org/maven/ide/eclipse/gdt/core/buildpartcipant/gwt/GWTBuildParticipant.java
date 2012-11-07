@@ -41,7 +41,7 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
     }
 
     @Override
-    public Set<IProject> build(int kind, IProgressMonitor monitor)  throws CoreException {
+    public Set<IProject> build(int kind, IProgressMonitor monitor) throws CoreException {
         IMaven maven = MavenPlugin.getMaven();
 
         BuildContext buildContext = getBuildContext();
@@ -54,6 +54,7 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
                     + getMojoExecution());
             Set<IProject> result;
             try {
+
                 result = super.build(kind, monitor);
             } catch (Exception e) {
                 throw new CoreException(new Status(IStatus.ERROR, GdtPlugin.PLUGIN_ID, e.getLocalizedMessage(), e));
@@ -124,9 +125,8 @@ public abstract class GWTBuildParticipant extends MojoExecutionBuildParticipant 
      */
     protected boolean determineIfShouldRun(BuildContext buildContext, List<File> resourcesToStat) {
 
-
         for (File statedFolder : resourcesToStat) {
-            Scanner scanner = buildContext.newScanner(statedFolder);
+            Scanner scanner = buildContext.newScanner(statedFolder, false);
 
             scanner.scan();
             String[] includedFiles = scanner.getIncludedFiles();

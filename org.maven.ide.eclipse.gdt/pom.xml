@@ -31,6 +31,12 @@
 			<id>rso</id>
 			<url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
 		</repository>
+    
+        <repository>
+          <id>m2e-wtp</id>
+          <url>http://download.eclipse.org/m2e-wtp/releases/</url>
+          <layout>p2</layout>
+        </repository>
 
 		<repository>
 			<id>helios</id>
@@ -43,12 +49,7 @@
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/technology/m2e/releases/1.0</url>
 		</repository>
-
-		<repository>
-			<id>m2e-wtp</id>
-			<layout>p2</layout>
-			<url>https://repository.sonatype.org/content/repositories/forge-sites/m2eclipse-wtp/0.13.0/S/0.13.0.20110623-0455/</url>
-		</repository>
+		
 	</repositories>
 
 	<properties>
