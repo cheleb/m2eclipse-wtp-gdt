@@ -9,5 +9,5 @@
   <artifactId>org.maven.ide.eclipse.gdt.feature</artifactId>
 
   <packaging>eclipse-feature</packaging>
-  <name>Maven Integration for Google Eclipse Plugin : Feature</name>
+  <name>Maven Integration for Google Web Toolkit Plugin : Feature</name>
 </project>

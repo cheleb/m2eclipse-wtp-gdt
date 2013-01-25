@@ -7,7 +7,7 @@
 
 	<packaging>pom</packaging>
 
-	<name>Maven Integration for Google Eclipse Plugin : parent</name>
+	<name>Maven Integration for Google Web Toolkit Plugin : parent</name>
 
 	<prerequisites>
 		<maven>3.0</maven>
@@ -21,9 +21,10 @@
 
 
 	<repositories>
+	  
 		<repository>
 			<id>google.gep</id>
-			<url>http://dl.google.com/eclipse/plugin/3.7</url>
+			<url>http://dl.google.com/eclipse/plugin/core/4.2</url>
 			<layout>p2</layout>
 		</repository>
 
@@ -39,10 +40,12 @@
         </repository>
 
 		<repository>
-			<id>helios</id>
+			<id>juno</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/indigo</url>
+			<url>http://download.eclipse.org/releases/juno</url>
 		</repository>
+
+
 
 		<repository>
 			<id>m2e</id>
@@ -53,7 +56,7 @@
 	</repositories>
 
 	<properties>
-		<tycho.version>0.12.0</tycho.version>
+		<tycho.version>0.16.0</tycho.version>
 		<!-- <target.platform>m2e-gdt-36</target.platform> -->
 	</properties>
 
@@ -95,7 +98,7 @@
 						<plugin>
 							<groupId>org.eclipse.tycho</groupId>
 							<artifactId>tycho-surefire-plugin</artifactId>
-							<version>${tycho-version}</version>
+							<version>${tycho.version}</version>
 							<configuration>
 								<dependencies>
 									<dependency>
@@ -136,8 +139,7 @@
 			</build>
 		</profile>
 	</profiles>
-
-
+    <!-- Build section -->
 	<build>
 		<plugins>
 			<plugin>
@@ -164,41 +166,9 @@
 				<configuration>
 					<resolver>p2</resolver>
 					<ignoreTychoRepositories>true</ignoreTychoRepositories>
-					<!-- <target> -->
-					<!-- <artifact> -->
-					<!-- <groupId>org.maven.ide.eclipse.gdt</groupId> -->
-					<!-- <artifactId>org.maven.ide.eclipse.gdt.target-platform</artifactId> -->
-					<!-- <version>${project.version}</version> -->
-					<!-- <classifier>${target.platform}</classifier> -->
-					<!-- </artifact> -->
-					<!-- </target> -->
 				</configuration>
 			</plugin>
 
 		</plugins>
-
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.sonatype.tycho</groupId>
-					<artifactId>maven-osgi-test-plugin</artifactId>
-					<version>${tycho-version}</version>
-					<configuration>
-						<useUIHarness>true</useUIHarness>
-						<includes>
-							<include>**/*Test.java</include>
-						</includes>
-						<argLine>${tycho.test.jvmArgs}</argLine>
-
-						<forkedProcessTimeoutInSeconds>900</forkedProcessTimeoutInSeconds>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.4.3</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>

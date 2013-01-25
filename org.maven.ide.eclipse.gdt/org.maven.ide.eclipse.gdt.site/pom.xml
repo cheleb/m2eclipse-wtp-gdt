@@ -8,41 +8,103 @@
 
   <artifactId>org.maven.ide.eclipse.gwt.site</artifactId>
 
-  <packaging>eclipse-update-site</packaging>
-  <name>Maven Integration for Google Eclipse Plugin : Site</name>
+  <packaging>eclipse-repository</packaging>
+  <name>Maven Integration for Google Web Toolkit Plugin : Site</name>
   
   
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-packaging-plugin</artifactId>
-        <configuration>
-          <metadataRepositoryName>Maven Integration for Google Eclipse Plugin</metadataRepositoryName>
-          <artifactRepositoryName>Maven Integration for Google Eclipse Plugin</artifactRepositoryName>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/assembly.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id> 
-            <phase>package</phase> 
-            <goals>
-              <goal>single</goal> 
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
+ <properties>
+    <updatesite.name>m2e-gdt-wtp</updatesite.name>
+  </properties>
+ 
+  <profiles>
+    <profile>
+      <id>publish-site</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>maven-upload-plugin</artifactId>
+            <version>0.0.1</version>
+            <executions>
+              <execution>
+                <id>publish-site</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload-file</goal>
+                </goals>
+                <configuration>
+                  <file>${project.build.directory}/${project.artifactId}-${project.version}-site.zip</file>
+                  <serverId>forge-releases</serverId>
+                  <repositoryUrl>${m2e.site-compressed}</repositoryUrl>
+                  <repositoryPath>m2eclipse-ajdt/${unqualifiedVersion}/N/${unqualifiedVersion}.${buildQualifier}</repositoryPath>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>publish-local</id>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- https://github.com/cheleb/maven-updatesite-helper -->
+            <groupId>org.eclipse.maven.updatesite</groupId>
+            <artifactId>maven-updatesite-plugin</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <configuration>
+              <sites combine.children="append">
+                <site>
+                  <baseURL>${primary.updatesite.url}</baseURL>
+                  <serverId>${primary.updatesite.serverId}</serverId>
+                  <parent>${updatesite.parent}</parent>
+                  <name>${updatesite.name}</name>
+                </site>
+              </sites>
+            </configuration>
+            <executions>
+              <execution>
+                <id>deploy-local</id>
+                <goals>
+                  <goal>deploy</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>publish-remote</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.maven.updatesite</groupId>
+            <artifactId>maven-updatesite-plugin</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <configuration>
+              <sites combine.children="append">
+                <site>
+                  <baseURL>${secondary.updatesite.url}</baseURL>
+                  <serverId>${secondary.updatesite.serverId}</serverId>
+                  <parent>${updatesite.parent}</parent>
+                  <name>${updatesite.name}</name>
+                </site>
+              </sites>
+            </configuration>
+            <executions>
+              <execution>
+                <id>deploy-remote</id>
+                <goals>
+                  <goal>deploy</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   
 </project>
