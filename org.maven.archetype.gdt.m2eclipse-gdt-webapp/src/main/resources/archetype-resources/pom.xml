@@ -8,7 +8,7 @@
   <name>A custom project</name>
   <url>http://www.orcades.org</url>
   <properties>
-    <gwt.version>2.4.0</gwt.version>
+    <gwt.version>${gwtVersion}</gwt.version>
   </properties>
   <build>
     <resources>
@@ -36,7 +36,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>2.3.0</version>
+        <version>${gwtMojoVersion}</version>
         <configuration>
           <module>${package}.${gwtModule}</module>
         </configuration>

@@ -5,7 +5,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <requiredProperties>
     <requiredProperty key="gwtVersion">
-      <defaultValue>2.4.0</defaultValue>
+      <defaultValue>2.5.0</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="gwtMojoVersion">
+      <defaultValue>${gwtVersion}</defaultValue>
     </requiredProperty>
     <requiredProperty key="gwtModule" />
     <requiredProperty key="name" />
